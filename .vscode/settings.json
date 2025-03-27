@@ -1,0 +1,9 @@
+{
+    "idf.pythonInstallPath": "/Library/Frameworks/Python.framework/Versions/3.13/bin/python3",
+    "idf.customExtraVars": {
+        "IDF_TARGET": "esp32"
+    },
+    "idf.flashType": "UART",
+    "idf.port": "/dev/tty.usbserial-0001",
+    "cmake.sourceDirectory": "/Users/areej/HydraWiseBLE/HydraWiseBLE"
+}

@@ -19,20 +19,27 @@ uint8_t ble_addr_type;
 void ble_app_advertise(void);
 
 // Write data to ESP32 defined as server
-static int device_write(uint16_t conn_handle, uint16_t attr_handle, struct ble_gatt_access_ctxt *ctxt, void *arg) {
-    printf("Data from the client: %s\n", (char *)ctxt->om->om_data);
+static int device_write(uint16_t conn_handle, uint16_t attr_handle,
+    struct ble_gatt_access_ctxt *ctxt, void *arg) {
+    printf("Received WRITE (handle: %d, conn: %d)\n", attr_handle, conn_handle);
 
-    char *data = (char *)ctxt->om->om_data;
-    printf("%d\n", strcmp(data, (char *)"lIGHT ON")==0);
-    if (strcmp(data, (char *)"lIGHT ON")==0) {
-        printf("Light ON\n");
-    } else if (strcmp(data, (char *)"lIGHT OFF")==0) {
-        printf("Light OFF\n");
-    } else {
-        printf("Data from the client: %.*s\n", ctxt->om->om_len, (char *)ctxt->om->om_data);
+    // Print data as a raw string (if safe)
+    char buf[ctxt->om->om_len + 1]; // +1 for null-termination
+    memcpy(buf, ctxt->om->om_data, ctxt->om->om_len);
+    buf[ctxt->om->om_len] = '\0'; // ensure it's null-terminated
+
+    printf("Data from the client: %s\n", buf);
+
+    // You can add parsing logic here
+    if (strcmp(buf, "LIGHT ON") == 0) {
+    printf("Turning LIGHT ON\n");
+    } else if (strcmp(buf, "LIGHT OFF") == 0) {
+    printf("Turning LIGHT OFF\n");
     }
+
     return 0;
 }
+
 
 // Read data from ESP32 defined as a server
 static int device_read(uint16_t conn_handle, uint16_t attr_handle, struct ble_gatt_access_ctxt *ctxt, void *arg) {
@@ -41,19 +48,114 @@ static int device_read(uint16_t conn_handle, uint16_t attr_handle, struct ble_ga
     return 0;
 }
 
+// heart rate characteristic
+static const struct ble_gatt_chr_def heart_rate_chr[] = {
+    {
+        .uuid = BLE_UUID16_DECLARE(0x2A37), // HEART RATE MEASUREMENT
+        .access_cb = device_read,
+        .flags = BLE_GATT_CHR_F_READ | BLE_GATT_CHR_F_NOTIFY,
+    },
+    {
+        0, // NULL TERMINATOR
+    }
+};
+
+// conductivity characteristic
+static const ble_uuid128_t conductivity_uuid =
+    BLE_UUID128_INIT(0xaa, 0x5b, 0x97, 0x50,
+                     0xc9, 0x82, 0x4c, 0xe6,
+                     0x90, 0xc7, 0x54, 0xc0,
+                     0xc8, 0xc6, 0xae, 0x84);
+
+static struct ble_gatt_chr_def conductivity_chr[] = {
+    {
+        .uuid = (const ble_uuid_t *)&conductivity_uuid,  // Cast to correct type
+        .access_cb = device_read,
+        .flags = BLE_GATT_CHR_F_READ | BLE_GATT_CHR_F_NOTIFY,
+    },
+    {
+        0
+    },  // Terminator
+};
+
+// battery level characteristic
+static const struct ble_gatt_chr_def battery_level_chr[] = {
+    {
+        .uuid = BLE_UUID16_DECLARE(0x2A19), // BATTERY LEVEL
+        .access_cb = device_read,
+        .flags = BLE_GATT_CHR_F_READ | BLE_GATT_CHR_F_NOTIFY,
+    },
+    {
+        0, // NULL TERMINATOR
+    }
+};
+
 // Array of pointers to other service definitions
 // UUID - Universal Unique Identifier
 static const struct ble_gatt_svc_def gatt_svcs[] = {
-    {.type = BLE_GATT_SVC_TYPE_PRIMARY,
-     .uuid = BLE_UUID16_DECLARE(0x180F),
-     .characteristics = (struct ble_gatt_chr_def[]) {
-         {.uuid = BLE_UUID16_DECLARE(0x2A19),
-          .access_cb = device_read,
-          .flags = BLE_GATT_CHR_F_READ | BLE_GATT_CHR_F_WRITE},
-         {.uuid = BLE_UUID16_DECLARE(0x2A00),
-          .access_cb = device_write,
-          .flags = BLE_GATT_CHR_F_WRITE},
-         {0}}}, // End of characteristics
+    {
+        .type = BLE_GATT_SVC_TYPE_PRIMARY,
+        .uuid = BLE_UUID16_DECLARE(0x180F),
+        .characteristics = (struct ble_gatt_chr_def[]) 
+        {
+            {.uuid = BLE_UUID16_DECLARE(0x2A19),
+            .access_cb = device_read,
+            .flags = BLE_GATT_CHR_F_READ | BLE_GATT_CHR_F_WRITE
+            },
+            {.uuid = BLE_UUID16_DECLARE(0x2A00),
+            .access_cb = device_write,
+            .flags = BLE_GATT_CHR_F_WRITE
+            },
+            {0}
+        }
+    }, 
+    {
+        .type = BLE_GATT_SVC_TYPE_PRIMARY,
+        .uuid = BLE_UUID16_DECLARE(0x181A),
+        .characteristics = heart_rate_chr,
+    },
+    {
+        .type = BLE_GATT_SVC_TYPE_PRIMARY,
+        .uuid = BLE_UUID16_DECLARE(0x181C),
+        .characteristics = conductivity_chr,
+    },
+    {
+        .type = BLE_GATT_SVC_TYPE_PRIMARY,
+        .uuid = BLE_UUID16_DECLARE(0x180F),
+        .characteristics = battery_level_chr,
+    },
+    {
+        .type = BLE_GATT_SVC_TYPE_PRIMARY,
+        .uuid = BLE_UUID16_DECLARE(0x180A),
+        .characteristics = (struct ble_gatt_chr_def[]) 
+        {
+            {.uuid = BLE_UUID16_DECLARE(0x2A29),
+            .access_cb = device_read,
+            .flags = BLE_GATT_CHR_F_READ | BLE_GATT_CHR_F_WRITE
+            },
+            {.uuid = BLE_UUID16_DECLARE(0x2A24),
+            .access_cb = device_write,
+            .flags = BLE_GATT_CHR_F_WRITE
+            },
+            {0}
+        }
+    },
+    {
+        .type = BLE_GATT_SVC_TYPE_PRIMARY,
+        .uuid = BLE_UUID16_DECLARE(0x180C),
+        .characteristics = (struct ble_gatt_chr_def[]) 
+        {
+            {.uuid = BLE_UUID16_DECLARE(0x2A37),
+            .access_cb = device_read,
+            .flags = BLE_GATT_CHR_F_READ | BLE_GATT_CHR_F_WRITE
+            },
+            {.uuid = BLE_UUID16_DECLARE(0x2A38),
+            .access_cb = device_write,
+            .flags = BLE_GATT_CHR_F_WRITE
+            },
+            {0}
+        }
+    },// End of characteristics
     {0}}; // End of services
 
 // BLE event handling
