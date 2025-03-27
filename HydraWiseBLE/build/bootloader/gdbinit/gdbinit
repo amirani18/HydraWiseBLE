@@ -1,0 +1,2 @@
+source /Users/areej/HydraWiseBLE/HydraWiseBLE/build/bootloader/gdbinit/symbols
+source /Users/areej/HydraWiseBLE/HydraWiseBLE/build/bootloader/gdbinit/connect
