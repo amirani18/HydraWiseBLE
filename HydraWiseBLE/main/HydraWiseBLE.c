@@ -18,6 +18,38 @@ char *TAG = "HydraWise-BLE-Server";
 uint8_t ble_addr_type;
 void ble_app_advertise(void);
 
+/*
+-------------------------------------------
+
+ESP 32 FUNCTIONALITIES
+
+---------------------------------------------
+1. Device Name: HydraWise-BLE-Server
+2. Services:
+   - Heart Rate Service
+   - Conductivity Service
+   - Battery Level Service
+   - Device Information Service
+3. Characteristics:
+    - Heart Rate Measurement (Notify)
+    - Conductivity Measurement (Notify)
+    - Battery Level (Notify)
+    - Device Name (Read/Write)
+    - Device Information (Read/Write)
+    - Custom Commands (e.g., "LIGHT ON", "LIGHT OFF")
+4. Access Control:
+    - Heart Rate Measurement: Read and Notify
+    - Conductivity Measurement: Read and Notify
+    - Battery Level: Read and Notify
+    - Device Name: Read and Write
+    - Device Information: Read and Write
+    - Custom Commands: Write only (to control external devices)
+5. Connection Handling:
+    - Handle connection and disconnection events
+    - Retry advertising on disconnection
+    - Store connection handle for further communication
+---------------------------------------------
+*/
 // Write data to ESP32 defined as server
 static int device_write(uint16_t conn_handle, uint16_t attr_handle,
     struct ble_gatt_access_ctxt *ctxt, void *arg) {
@@ -39,7 +71,6 @@ static int device_write(uint16_t conn_handle, uint16_t attr_handle,
 
     return 0;
 }
-
 
 // Read data from ESP32 defined as a server
 static int device_read(uint16_t conn_handle, uint16_t attr_handle, struct ble_gatt_access_ctxt *ctxt, void *arg) {
@@ -89,6 +120,29 @@ static const struct ble_gatt_chr_def battery_level_chr[] = {
         0, // NULL TERMINATOR
     }
 };
+
+// heart rate notification task with FreeRTOS
+void notify_heart_rate_task(void *param) {
+    while(1) {
+        if (conn_handle_global != 0)
+        {
+            // format: 1 byte for flags, 1 or 2 bytes for heart rate value (example: 60 bpm)
+            uint8_t hr_data[2] = { 0x00, 75 }; // Heart rate measurement (75 bpm)   
+            struct os_mbuf *om = ble_hs_mbuf_from_flat(hr_data, sizeof(hr_data)); // Allocate a packet header
+            int rc = ble_gattc_notify_custom(conn_handle_global, // Connection handle
+                BLE_UUID16_DECLARE(0x2A37), // Heart Rate Measurement UUID
+                om); // The data to send
+            if (rc != 0) {
+                printf("failed to send heart rate notification: %d\n", rc);
+                ESP_LOGE(TAG, "Failed to send heart rate notification: %d", rc);
+            } else {
+                printf("heart rate notification sent: %d bpm\n", hr_data[1]);
+                ESP_LOGI(TAG, "Heart rate notification sent: %d bpm", hr_data[1]);
+            }
+            vTaskDelay(pdMS_TO_TICKS(3000)); // Notify every 3 seconds
+        }
+    }
+}
 
 // Array of pointers to other service definitions
 // UUID - Universal Unique Identifier
@@ -164,11 +218,19 @@ static int ble_gap_event(struct ble_gap_event *event, void *arg) {
     {
         // Advertise if connected
         case BLE_GAP_EVENT_CONNECT:
-            ESP_LOGI("GAP", "BLE GAP EVENT CONNECT %s", event -> connect.status == 0 ? "success" : "fail");
-            if (event -> connect.status != 0) {
-                ble_app_advertise();
+            if (event -> connect.status == 0) {
+                ESP_LOGI("GAP", "Device connected");
+                conn_handle_global = event -> connect.conn_handle; // Store the connection handle globally
+            }
+            else {
+                ble_app_advertise(); // Retry advertising if connection failed
             }
             break;
+        //     ESP_LOGI("GAP", "BLE GAP EVENT CONNECT %s", event -> connect.status == 0 ? "success" : "fail");
+        //     if (event -> connect.status != 0) {
+        //         ble_app_advertise();
+        //     }
+        //     break;
         // advertise again after completion of event
         case BLE_GAP_EVENT_DISCONNECT:
             ESP_LOGI("GAP", "BLE GAP EVENT DISCONNECT");
@@ -226,4 +288,10 @@ void app_main() {
     ble_gatts_add_svcs(gatt_svcs);
     ble_hs_cfg.sync_cb = ble_app_on_sync;
     nimble_port_freertos_init(host_task);
+    xTaskCreate(notify_heart_rate_task, "notify_heart_rate_task", 4096, NULL, 5, NULL); // Create FreeRTOS task for heart rate notifications
+    // Note: The above task will send heart rate notifications every 3 seconds
+    // This will allow the ESP32 to send heart rate notifications to connected clients.
+    // The application will now start advertising and waiting for connections.
+    // The notify_heart_rate_task will run in parallel and send notifications to the connected client.
+    // Make sure to handle the connection and disconnection events properly to manage the connection state.
 }
