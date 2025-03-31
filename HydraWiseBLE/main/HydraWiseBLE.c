@@ -296,7 +296,7 @@ void app_main() {
     ble_gatts_count_cfg(gatt_svcs);
     ble_gatts_add_svcs(gatt_svcs);
     // heart rate measurement characteristic handle
-    int rc = ble_gatts_find_chr(BLE_UUID16_DECLARE(0x181A), // Heart Rate Service UUID
+    int rc = ble_gatts_find_chr(BLE_UUID16_DECLARE(0x180D), // Heart Rate Service UUID
         BLE_UUID16_DECLARE(0x2A37), // Heart Rate Measurement UUID
         NULL, // No specific UUID to search for
         &hrm_handle);
