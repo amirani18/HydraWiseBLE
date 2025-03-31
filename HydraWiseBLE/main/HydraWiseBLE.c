@@ -15,7 +15,10 @@
 
 // Define device
 char *TAG = "HydraWise-BLE-Server";
+#define CONFIG_IDF_TARGET_ESP32 1
 uint8_t ble_addr_type;
+static uint16_t conn_handle_global = 0; // Global connection handle to track the current connection
+static uint16_t hrm_handle = 0; // Handle for Heart Rate Measurement characteristic
 void ble_app_advertise(void);
 
 /*
@@ -130,7 +133,7 @@ void notify_heart_rate_task(void *param) {
             uint8_t hr_data[2] = { 0x00, 75 }; // Heart rate measurement (75 bpm)   
             struct os_mbuf *om = ble_hs_mbuf_from_flat(hr_data, sizeof(hr_data)); // Allocate a packet header
             int rc = ble_gattc_notify_custom(conn_handle_global, // Connection handle
-                BLE_UUID16_DECLARE(0x2A37), // Heart Rate Measurement UUID
+                hrm_handle, // Heart Rate Measurement UUID
                 om); // The data to send
             if (rc != 0) {
                 printf("failed to send heart rate notification: %d\n", rc);
@@ -286,9 +289,20 @@ void app_main() {
     ble_svc_gatt_init();
     ble_gatts_count_cfg(gatt_svcs);
     ble_gatts_add_svcs(gatt_svcs);
+    // heart rate measurement characteristic handle
+    int rc = ble_gatts_find_chr(BLE_UUID16_DECLARE(0x181A), // Heart Rate Service UUID
+        BLE_UUID16_DECLARE(0x2A37), // Heart Rate Measurement UUID
+        NULL, // No specific UUID to search for
+        &hrm_handle);
+    if (rc != 0) {
+        ESP_LOGE(TAG, "Failed to find Heart Rate Measurement characteristic: %d", rc);
+        return; // Handle error
+    } else {
+        ESP_LOGI(TAG, "Heart Rate Measurement characteristic handle: %d", hrm_handle);
+    }
     ble_hs_cfg.sync_cb = ble_app_on_sync;
     nimble_port_freertos_init(host_task);
-    xTaskCreate(notify_heart_rate_task, "notify_heart_rate_task", 4096, NULL, 5, NULL); // Create FreeRTOS task for heart rate notifications
+    xTaskCreate(notify_heart_rate_task, "hr_notify_task", 4096, NULL, 5, NULL); // Create FreeRTOS task for heart rate notifications
     // Note: The above task will send heart rate notifications every 3 seconds
     // This will allow the ESP32 to send heart rate notifications to connected clients.
     // The application will now start advertising and waiting for connections.
