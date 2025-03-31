@@ -150,76 +150,65 @@ void notify_heart_rate_task(void *param) {
 // Array of pointers to other service definitions
 // UUID - Universal Unique Identifier
 static const struct ble_gatt_svc_def gatt_svcs[] = {
-    // Battery service (service UUID: 0x180F)
+    // Battery Service (0x180F)
     {
         .type = BLE_GATT_SVC_TYPE_PRIMARY,
-        .uuid = BLE_UUID16_DECLARE(0x180E), // service UUID: battery service ?
-        .characteristics = (struct ble_gatt_chr_def[]) 
+        .uuid = BLE_UUID16_DECLARE(0x180F), // Service UUID: Battery Service
+        .characteristics = battery_level_chr, // Characteristic: 0x2A19
+    },
+
+    // Heart Rate Service (0x180D)
+    {
+        .type = BLE_GATT_SVC_TYPE_PRIMARY,
+        .uuid = BLE_UUID16_DECLARE(0x180D), // Service UUID: Heart Rate Service
+        .characteristics = heart_rate_chr, // Characteristic: 0x2A37
+    },
+
+    // Conductivity Service (custom UUID)
+    {
+        .type = BLE_GATT_SVC_TYPE_PRIMARY,
+        .uuid = BLE_UUID16_DECLARE(0x181C), // Service UUID: Custom Conductivity
+        .characteristics = conductivity_chr, // Characteristic: 128-bit UUID
+    },
+
+    // Device Information Service (0x180A)
+    {
+        .type = BLE_GATT_SVC_TYPE_PRIMARY,
+        .uuid = BLE_UUID16_DECLARE(0x180A), // Service UUID: Device Info
+        .characteristics = (struct ble_gatt_chr_def[])
         {
-            {.uuid = BLE_UUID16_DECLARE(0x2A19), // characteristic UUID: battery level
-            .access_cb = device_read,
-            .flags = BLE_GATT_CHR_F_READ | BLE_GATT_CHR_F_WRITE
+            {
+                .uuid = BLE_UUID16_DECLARE(0x2A29), // Characteristic: Manufacturer Name
+                .access_cb = device_read,
+                .flags = BLE_GATT_CHR_F_READ,
             },
-            {.uuid = BLE_UUID16_DECLARE(0x2A00), // characteristic UUID: device name
-            .access_cb = device_write,
-            .flags = BLE_GATT_CHR_F_WRITE
+            {
+                .uuid = BLE_UUID16_DECLARE(0x2A24), // Characteristic: Model Number
+                .access_cb = device_read,
+                .flags = BLE_GATT_CHR_F_READ,
             },
-            {0}
-        }
-    }, 
-    // Heart Rate Service (Service UUID: 0x181D)
-    {
-        .type = BLE_GATT_SVC_TYPE_PRIMARY,
-        .uuid = BLE_UUID16_DECLARE(0x180D), // service UUID
-        .characteristics = heart_rate_chr,  // characteristic 0x2A37 UUID
-    },
-    // Conductivity Service (Service UUID: 0x181C)
-    {
-        .type = BLE_GATT_SVC_TYPE_PRIMARY,
-        .uuid = BLE_UUID16_DECLARE(0x181C), // service UUID
-        .characteristics = conductivity_chr, // characteristic custom 128-bit for conductivity
-    },
-    // Battery Level  (duplicate?)
-    {
-        .type = BLE_GATT_SVC_TYPE_PRIMARY,
-        .uuid = BLE_UUID16_DECLARE(0x180F),
-        .characteristics = battery_level_chr,
-    },
-    // device information service (service uuid: 0x180A)
-    {
-        .type = BLE_GATT_SVC_TYPE_PRIMARY,
-        .uuid = BLE_UUID16_DECLARE(0x180A), // service UUID
-        .characteristics = (struct ble_gatt_chr_def[]) 
-        {
-            {.uuid = BLE_UUID16_DECLARE(0x2A29), // characteristic UUID (manufacturer name string)
-            .access_cb = device_read,
-            .flags = BLE_GATT_CHR_F_READ | BLE_GATT_CHR_F_WRITE
-            },
-            {.uuid = BLE_UUID16_DECLARE(0x2A24), // characteristic UUID: model number string
-            .access_cb = device_write,
-            .flags = BLE_GATT_CHR_F_WRITE
-            },
-            {0}
+            { 0 } // Terminator
         }
     },
-    // custom control service (service UUID: 0x180C)
+
+    // Custom Command Control Service (0x180C)
     {
         .type = BLE_GATT_SVC_TYPE_PRIMARY,
-        .uuid = BLE_UUID16_DECLARE(0x180C), // service UUID
-        .characteristics = (struct ble_gatt_chr_def[]) 
+        .uuid = BLE_UUID16_DECLARE(0x180C), // Custom Service
+        .characteristics = (struct ble_gatt_chr_def[])
         {
-            // {.uuid = BLE_UUID16_DECLARE(0x2A37), // characteristic UUID (heart rate duplicate???)
-            // .access_cb = device_read,
-            // .flags = BLE_GATT_CHR_F_READ | BLE_GATT_CHR_F_WRITE
-            // },
-            {.uuid = BLE_UUID16_DECLARE(0x2A38), // characteristic UUID: body sensor location
-            .access_cb = device_write,
-            .flags = BLE_GATT_CHR_F_WRITE
+            {
+                .uuid = BLE_UUID16_DECLARE(0x2A00), // Characteristic: Device Name Write
+                .access_cb = device_write,
+                .flags = BLE_GATT_CHR_F_WRITE,
             },
-            {0}
+            { 0 } // Terminator
         }
-    },// End of characteristics
-    {0}}; // End of services
+    },
+
+    { 0 } // End of services
+};
+
 
 // BLE event handling
 static int ble_gap_event(struct ble_gap_event *event, void *arg) {
@@ -296,14 +285,21 @@ void app_main() {
     ble_gatts_count_cfg(gatt_svcs);
     ble_gatts_add_svcs(gatt_svcs);
     // heart rate measurement characteristic handle
-    int rc = ble_gatts_find_chr(BLE_UUID16_DECLARE(0x180D), // Heart Rate Service UUID
-        BLE_UUID16_DECLARE(0x2A37), // Heart Rate Measurement UUID
-        NULL, // No specific UUID to search for
-        &hrm_handle);
+    uint16_t def_handle;
+    uint16_t val_handle;
+    ESP_LOGI(TAG, "Attempting to locate Heart Rate Characteristic UUID: 0x2A37 in Service UUID: 0x180D");
+
+    int rc = ble_gatts_find_chr(
+        BLE_UUID16_DECLARE(0x180D), // Heart Rate Service
+        // BLE_UUID16_DECLARE(0x2A37), // Heart Rate Measurement
+        &def_handle,
+        &val_handle
+    );
     if (rc != 0) {
         ESP_LOGE(TAG, "Failed to find Heart Rate Measurement characteristic: %d", rc);
-        return; // Handle error
+        return;
     } else {
+        hrm_handle = val_handle;
         ESP_LOGI(TAG, "Heart Rate Measurement characteristic handle: %d", hrm_handle);
     }
     ble_hs_cfg.sync_cb = ble_app_on_sync;
