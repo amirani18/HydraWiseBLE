@@ -11,6 +11,7 @@
 #include "host/ble_hs.h"
 #include "services/gap/ble_svc_gap.h"
 #include "services/gatt/ble_svc_gatt.h"
+#include "esp_random.h"
 #include "sdkconfig.h"
 
 // Define device
@@ -131,6 +132,16 @@ void notify_heart_rate_task(void *param) {
         {
             // format: 1 byte for flags, 1 or 2 bytes for heart rate value (example: 60 bpm)
             uint8_t hr_data[2] = { 0x00, 75 }; // Heart rate measurement (75 bpm)   
+            // uint8_t flags = 0x08; // bit 3 set = Energy Expended present
+            // uint8_t bpm = (esp_random() % 40) + 60;  // 60–99 bpm
+            // uint16_t energy = 100 + (esp_random() % 500);  // some fake energy in kJ
+
+            // uint8_t hr_data[4];
+            // hr_data[0] = flags;
+            // hr_data[1] = bpm;
+            // hr_data[2] = energy & 0xFF;
+            // hr_data[3] = (energy >> 8) & 0xFF;
+
             struct os_mbuf *om = ble_hs_mbuf_from_flat(hr_data, sizeof(hr_data)); // Allocate a packet header
             int rc = ble_gattc_notify_custom(conn_handle_global, // Connection handle
                 hrm_handle, // Heart Rate Measurement UUID
@@ -142,8 +153,9 @@ void notify_heart_rate_task(void *param) {
                 printf("heart rate notification sent: %d bpm\n", hr_data[1]);
                 ESP_LOGI(TAG, "Heart rate notification sent: %d bpm", hr_data[1]);
             }
-            vTaskDelay(pdMS_TO_TICKS(3000)); // Notify every 3 seconds
+            // vTaskDelay(pdMS_TO_TICKS(3000)); // Notify every 3 seconds
         }
+        vTaskDelay(pdMS_TO_TICKS(3000));
     }
 }
 
@@ -224,11 +236,6 @@ static int ble_gap_event(struct ble_gap_event *event, void *arg) {
                 ble_app_advertise(); // Retry advertising if connection failed
             }
             break;
-        //     ESP_LOGI("GAP", "BLE GAP EVENT CONNECT %s", event -> connect.status == 0 ? "success" : "fail");
-        //     if (event -> connect.status != 0) {
-        //         ble_app_advertise();
-        //     }
-        //     break;
         // advertise again after completion of event
         case BLE_GAP_EVENT_DISCONNECT:
             ESP_LOGI("GAP", "BLE GAP EVENT DISCONNECT");
@@ -268,6 +275,24 @@ void ble_app_advertise(void)
 void ble_app_on_sync(void) {
     ble_hs_id_infer_auto(0, &ble_addr_type);
     ble_app_advertise();
+    ESP_LOGI(TAG, "Attempting to locate Heart Rate Characteristic UUID: 0x2A37 in Service UUID: 0x180D");
+
+    uint16_t def_handle;
+    uint16_t val_handle;
+
+    int rc = ble_gatts_find_chr(
+        BLE_UUID16_DECLARE(0x180D),
+        BLE_UUID16_DECLARE(0x2A37),
+        &def_handle,
+        &val_handle
+    );
+
+    if (rc != 0) {
+        ESP_LOGE(TAG, "Failed to find Heart Rate Measurement characteristic: %d", rc);
+    } else {
+        hrm_handle = val_handle;
+        ESP_LOGI(TAG, "Heart Rate Measurement characteristic handle: %d", hrm_handle);
+    }
 }
 
 // the inifinite task
@@ -284,27 +309,9 @@ void app_main() {
     ble_svc_gatt_init();
     ble_gatts_count_cfg(gatt_svcs);
     ble_gatts_add_svcs(gatt_svcs);
-    // heart rate measurement characteristic handle
-    uint16_t def_handle;
-    uint16_t val_handle;
-    ESP_LOGI(TAG, "Attempting to locate Heart Rate Characteristic UUID: 0x2A37 in Service UUID: 0x180D");
-
-    int rc = ble_gatts_find_chr(
-        BLE_UUID16_DECLARE(0x180D), // Heart Rate Service
-        // BLE_UUID16_DECLARE(0x2A37), // Heart Rate Measurement
-        &def_handle,
-        &val_handle
-    );
-    if (rc != 0) {
-        ESP_LOGE(TAG, "Failed to find Heart Rate Measurement characteristic: %d", rc);
-        return;
-    } else {
-        hrm_handle = val_handle;
-        ESP_LOGI(TAG, "Heart Rate Measurement characteristic handle: %d", hrm_handle);
-    }
     ble_hs_cfg.sync_cb = ble_app_on_sync;
     nimble_port_freertos_init(host_task);
-    xTaskCreate(notify_heart_rate_task, "hr_notify_task", 4096, NULL, 5, NULL); // Create FreeRTOS task for heart rate notifications
+    xTaskCreate(notify_heart_rate_task, "hr_notify_task", 2048, NULL, 5, NULL); // Create FreeRTOS task for heart rate notifications
     // Note: The above task will send heart rate notifications every 3 seconds
     // This will allow the ESP32 to send heart rate notifications to connected clients.
     // The application will now start advertising and waiting for connections.
