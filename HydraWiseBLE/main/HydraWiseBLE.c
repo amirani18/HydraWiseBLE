@@ -20,6 +20,8 @@ char *TAG = "HydraWise-BLE-Server";
 uint8_t ble_addr_type;
 static uint16_t conn_handle_global = 0; // Global connection handle to track the current connection
 static uint16_t hrm_handle = 0; // Handle for Heart Rate Measurement characteristic
+static uint16_t conductivity_handle = 0; // Handle for Conductivity characteristic
+volatile bool is_running = true; // Flag to control task behavior
 void ble_app_advertise(void);
 
 /*
@@ -67,19 +69,42 @@ static int device_write(uint16_t conn_handle, uint16_t attr_handle,
     printf("Data from the client: %s\n", buf);
 
     // You can add parsing logic here
-    if (strcmp(buf, "LIGHT ON") == 0) {
-    printf("Turning LIGHT ON\n");
-    } else if (strcmp(buf, "LIGHT OFF") == 0) {
-    printf("Turning LIGHT OFF\n");
-    }
+    if (strcmp(buf, "START") == 0) {
+        is_running = true;
+        printf("Starting...\n");
+        ESP_LOGI(TAG, "START command received. Enabling data collection.");
+    } else if (strcmp(buf, "STOP") == 0) {
+        is_running = false;
+        printf("Stopping...\n");
+        ESP_LOGI(TAG, "STOP command received. Disabling data collection.");
 
     return 0;
 }
 
 // Read data from ESP32 defined as a server
+// static int device_read(uint16_t conn_handle, uint16_t attr_handle, struct ble_gatt_access_ctxt *ctxt, void *arg) {
+//     printf("Read data from the client\n");
+//     os_mbuf_append(ctxt->om, "Hello from ESP32", 17);
+//     return 0;
+// }
+
+// extravagant read data from ESP32 defined as a server
 static int device_read(uint16_t conn_handle, uint16_t attr_handle, struct ble_gatt_access_ctxt *ctxt, void *arg) {
-    printf("Read data from the client\n");
-    os_mbuf_append(ctxt->om, "Hello from ESP32", 17);
+    if (attr_handle == hrm_handle) {
+        ESP_LOGI(TAG, "💓 Client is reading Heart Rate characteristic");
+        float dummy_hr = 75.0f;
+        os_mbuf_append(ctxt->om, &dummy_hr, sizeof(dummy_hr));
+    }
+    else if (attr_handle == conductivity_handle) {
+        ESP_LOGI(TAG, "💧 Client is reading Conductivity characteristic");
+        float dummy_conductivity = 1.23f;
+        os_mbuf_append(ctxt->om, &dummy_conductivity, sizeof(dummy_conductivity));
+    }
+    else {
+        ESP_LOGW(TAG, "⚠️ Unknown characteristic read (handle: %d)", attr_handle);
+        os_mbuf_append(ctxt->om, "Unknown", 7);
+    }
+
     return 0;
 }
 
@@ -128,19 +153,9 @@ static const struct ble_gatt_chr_def battery_level_chr[] = {
 // heart rate notification task with FreeRTOS
 void notify_heart_rate_task(void *param) {
     while(1) {
-        if (conn_handle_global != 0)
+        if (conn_handle_global != 0 && is_running) // Check if connected and running
         {
-            // format: 1 byte for flags, 1 or 2 bytes for heart rate value (example: 60 bpm)
             uint8_t hr_data[2] = { 0x00, 75 }; // Heart rate measurement (75 bpm)   
-            // uint8_t flags = 0x08; // bit 3 set = Energy Expended present
-            // uint8_t bpm = (esp_random() % 40) + 60;  // 60–99 bpm
-            // uint16_t energy = 100 + (esp_random() % 500);  // some fake energy in kJ
-
-            // uint8_t hr_data[4];
-            // hr_data[0] = flags;
-            // hr_data[1] = bpm;
-            // hr_data[2] = energy & 0xFF;
-            // hr_data[3] = (energy >> 8) & 0xFF;
 
             struct os_mbuf *om = ble_hs_mbuf_from_flat(hr_data, sizeof(hr_data)); // Allocate a packet header
             int rc = ble_gattc_notify_custom(conn_handle_global, // Connection handle
@@ -156,6 +171,30 @@ void notify_heart_rate_task(void *param) {
             // vTaskDelay(pdMS_TO_TICKS(3000)); // Notify every 3 seconds
         }
         vTaskDelay(pdMS_TO_TICKS(3000));
+    }
+}
+
+// conductivity notification task with FreeRTOS
+void notify_conductivity_task(void *param) {
+    while(1) {
+        if (conn_handle_global != 0 && is_running) // Check if connected and running
+        {
+            uint8_t conductivity_data[2] = { 0x00, 50 }; // Conductivity measurement (50 mS/cm)   
+
+            struct os_mbuf *om = ble_hs_mbuf_from_flat(conductivity_data, sizeof(conductivity_data)); // Allocate a packet header
+            int rc = ble_gattc_notify_custom(conn_handle_global, // Connection handle
+                conductivity_handle, // Conductivity UUID
+                om); // The data to send
+            if (rc != 0) {
+                printf("failed to send conductivity notification: %d\n", rc);
+                ESP_LOGE(TAG, "Failed to send conductivity notification: %d", rc);
+            } else {
+                printf("conductivity notification sent: %d mS/cm\n", conductivity_data[1]);
+                ESP_LOGI(TAG, "Conductivity notification sent: %d mS/cm", conductivity_data[1]);
+            }
+            // vTaskDelay(pdMS_TO_TICKS(3000)); // Notify every 3 seconds
+        }
+        vTaskDelay(pdMS_TO_TICKS(5000)); // Yield every 5 seconds
     }
 }
 
@@ -239,6 +278,8 @@ static int ble_gap_event(struct ble_gap_event *event, void *arg) {
         // advertise again after completion of event
         case BLE_GAP_EVENT_DISCONNECT:
             ESP_LOGI("GAP", "BLE GAP EVENT DISCONNECT");
+            conn_handle_global = 0;  // Reset connection handle
+            ble_app_advertise();     // Restart advertising
             break;
         case BLE_GAP_EVENT_ADV_COMPLETE:
             ESP_LOGI("GAP", "BLE GAP EVENT ADV COMPLETE");
@@ -251,25 +292,60 @@ static int ble_gap_event(struct ble_gap_event *event, void *arg) {
 }
 
 // Define BLE connection
+// void ble_app_advertise(void)
+// {
+//     // GAP - Generic Access Profile, device name definition
+//     struct ble_hs_adv_fields fields;
+//     const char *device_name;
+//     memset(&fields, 0, sizeof(fields));
+//     device_name = ble_svc_gap_device_name();
+//     fields.name = (uint8_t *)device_name;
+//     fields.name_len = strlen(device_name);
+//     fields.name_is_complete = 1;
+//     ble_gap_adv_set_fields(&fields);
+
+//     // GAP - Generic Access Profile, device connectivity definition
+//     struct ble_gap_adv_params adv_params;
+//     memset(&adv_params, 0, sizeof(adv_params));
+//     adv_params.conn_mode = BLE_GAP_CONN_MODE_UND;
+//     adv_params.disc_mode = BLE_GAP_DISC_MODE_GEN;
+//     ble_gap_adv_start(ble_addr_type, NULL, BLE_HS_FOREVER, &adv_params, ble_gap_event, NULL);
+// }
+
+// for apple
 void ble_app_advertise(void)
 {
-    // GAP - Generic Access Profile, device name definition
     struct ble_hs_adv_fields fields;
-    const char *device_name;
     memset(&fields, 0, sizeof(fields));
-    device_name = ble_svc_gap_device_name();
+
+    // Include flags for general discoverability and BLE-only support
+    fields.flags = BLE_HS_ADV_F_DISC_GEN | BLE_HS_ADV_F_BREDR_UNSUP;
+
+    // Include complete device name
+    const char *device_name = ble_svc_gap_device_name();
     fields.name = (uint8_t *)device_name;
     fields.name_len = strlen(device_name);
     fields.name_is_complete = 1;
+
+    // Include the Heart Rate Service UUID in the advertisement
+    const uint16_t svc_uuid = 0x180D;
+    fields.uuids16 = (ble_uuid16_t[]) {
+        BLE_UUID16_INIT(svc_uuid)
+    };
+    fields.num_uuids16 = 1;
+    fields.uuids16_is_complete = 1;
+
     ble_gap_adv_set_fields(&fields);
 
-    // GAP - Generic Access Profile, device connectivity definition
+    // Start advertising
     struct ble_gap_adv_params adv_params;
     memset(&adv_params, 0, sizeof(adv_params));
     adv_params.conn_mode = BLE_GAP_CONN_MODE_UND;
     adv_params.disc_mode = BLE_GAP_DISC_MODE_GEN;
+
     ble_gap_adv_start(ble_addr_type, NULL, BLE_HS_FOREVER, &adv_params, ble_gap_event, NULL);
 }
+
 
 // The application
 void ble_app_on_sync(void) {
@@ -293,6 +369,23 @@ void ble_app_on_sync(void) {
         hrm_handle = val_handle;
         ESP_LOGI(TAG, "Heart Rate Measurement characteristic handle: %d", hrm_handle);
     }
+
+    // conductivity handle
+    ESP_LOGI(TAG, "Attempting to locate Conductivity Characteristic UUID: 0xAA5B9750C9824CE690C754C0C8C6AE84 in Service UUID: 0x181C");
+
+    rc = ble_gatts_find_chr(
+        BLE_UUID16_DECLARE(0x181C),
+        (const ble_uuid_t *)&conductivity_uuid,
+        &def_handle,
+        &val_handle
+    );
+
+    if (rc != 0) {
+        ESP_LOGE(TAG, "Failed to find Conductivity characteristic: %d", rc);
+    } else {
+        conductivity_handle = val_handle;
+        ESP_LOGI(TAG, "Conductivity characteristic handle: %d", conductivity_handle);
+    }
 }
 
 // the inifinite task
@@ -312,6 +405,7 @@ void app_main() {
     ble_hs_cfg.sync_cb = ble_app_on_sync;
     nimble_port_freertos_init(host_task);
     xTaskCreate(notify_heart_rate_task, "hr_notify_task", 2048, NULL, 5, NULL); // Create FreeRTOS task for heart rate notifications
+    xTaskCreate(notify_conductivity_task, "conductivity_notify_task", 2048, NULL, 5, NULL); // Create FreeRTOS task for conductivity notifications
     // Note: The above task will send heart rate notifications every 3 seconds
     // This will allow the ESP32 to send heart rate notifications to connected clients.
     // The application will now start advertising and waiting for connections.

@@ -1,0 +1,594 @@
+Command: /Users/areej/.espressif/python_env/idf5.5_py3.13_env/bin/python /Users/areej/esp/esp-idf/tools/idf_monitor.py -p /dev/cu.usbserial-0001 -b 115200 --toolchain-prefix xtensa-esp32-elf- --target esp32 --revision 0 /Users/areej/HydraWiseBLE/HydraWiseBLE/build/HydraWiseBLE.elf /Users/areej/HydraWiseBLE/HydraWiseBLE/build/bootloader/bootloader.elf -m '/Users/areej/.espressif/python_env/idf5.5_py3.13_env/bin/python' '/Users/areej/esp/esp-idf/tools/idf.py'
+[0;32mI (13) boot: ESP-IDF v5.5-dev-2657-g23c73cdc37 2nd stage bootloader[0m
+[0;32mI (13) boot: compile time Apr  2 2025 14:12:15[0m
+[0;32mI (13) boot: Multicore bootloader[0m
+[0;32mI (15) boot: chip revision: v3.0[0m
+[0;32mI (18) boot.esp32: SPI Speed      : 40MHz[0m
+[0;32mI (22) boot.esp32: SPI Mode       : DIO[0m
+[0;32mI (25) boot.esp32: SPI Flash Size : 2MB[0m
+[0;32mI (29) boot: Enabling RNG early entropy source...[0m
+[0;32mI (33) boot: Partition Table:[0m
+[0;32mI (36) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (42) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (49) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (55) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (62) boot: End of partition table[0m
+[0;32mI (65) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=11e10h ( 73232) map[0m
+[0;32mI (98) esp_image: segment 1: paddr=00021e38 vaddr=3ff80000 size=0001ch (    28) load[0m
+[0;32mI (98) esp_image: segment 2: paddr=00021e5c vaddr=3ffbdb60 size=04da0h ( 19872) load[0m
+[0;32mI (109) esp_image: segment 3: paddr=00026c04 vaddr=40080000 size=09414h ( 37908) load[0m
+[0;32mI (124) esp_image: segment 4: paddr=00030020 vaddr=400d0020 size=522b0h (336560) map[0m
+[0;32mI (239) esp_image: segment 5: paddr=000822d8 vaddr=40089414 size=0e84ch ( 59468) load[0m
+[0;32mI (274) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (274) boot: Disabling RNG early entropy source...[0m
+[0;32mI (285) cpu_start: Multicore app[0m
+[0;32mI (293) cpu_start: Pro cpu start user code[0m
+[0;32mI (293) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (293) app_init: Application information:[0m
+[0;32mI (293) app_init: Project name:     HydraWiseBLE[0m
+[0;32mI (298) app_init: App version:      8cdc01e-dirty[0m
+[0;32mI (302) app_init: Compile time:     Apr  4 2025 14:11:18[0m
+[0;32mI (307) app_init: ELF file SHA256:  211b5615a...[0m
+[0;32mI (311) app_init: ESP-IDF:          v5.5-dev-2657-g23c73cdc37[0m
+[0;32mI (317) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (321) efuse_init: Max chip rev:     v3.99 [0m
+[0;32mI (325) efuse_init: Chip rev:         v3.0[0m
+[0;32mI (329) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (335) heap_init: At 3FFAFF10 len 000000F0 (0 KiB): DRAM[0m
+[0;32mI (340) heap_init: At 3FFB6388 len 00001C78 (7 KiB): DRAM[0m
+[0;32mI (345) heap_init: At 3FFB9A20 len 00004108 (16 KiB): DRAM[0m
+[0;32mI (350) heap_init: At 3FFC56E0 len 0001A920 (106 KiB): DRAM[0m
+[0;32mI (356) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM[0m
+[0;32mI (361) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM[0m
+[0;32mI (366) heap_init: At 40097C60 len 000083A0 (32 KiB): IRAM[0m
+[0;32mI (373) spi_flash: detected chip: generic[0m
+[0;32mI (375) spi_flash: flash io: dio[0m
+[0;33mW (378) spi_flash: Detected size(4096k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (391) coexist: coex firmware version: e727207[0m
+[0;32mI (396) main_task: Started on CPU0[0m
+[0;32mI (406) main_task: Calling app_main()[0m
+[0;32mI (416) BTDM_INIT: BT controller compile version [e250cf1][0m
+[0;32mI (416) BTDM_INIT: Bluetooth MAC: ec:62:60:1f:15:8a[0m
+[0;32mI (416) phy_init: phy_version 4860,6b7a6e5,Feb  6 2025,14:47:07[0m
+[0;32mI (726) main_task: Returned from app_main()[0m
+[0;32mI (766) NimBLE: Failed to restore IRKs from store; status=8[0m
+
+[0;32mI (776) NimBLE: GAP procedure initiated: advertise; [0m
+[0;32mI (776) NimBLE: disc_mode=2[0m
+[0;32mI (776) NimBLE:  adv_channel_map=0 own_addr_type=0 adv_filter_policy=0 adv_itvl_min=0 adv_itvl_max=0[0m
+[0;32mI (776) NimBLE: [0m
+
+[0;32mI (786) HydraWise-BLE-Server: Attempting to locate Heart Rate Characteristic UUID: 0x2A37 in Service UUID: 0x180D[0m
+[0;32mI (796) HydraWise-BLE-Server: Heart Rate Measurement characteristic handle: 20[0m
+Sample 0 - LED: 8
+Sample 1 - LED: 5
+Sample 2 - LED: 41
+Sample 3 - LED: 159
+Sample 4 - LED: 16
+Sample 5 - LED: 19
+Sample 6 - LED: 351
+Sample 7 - LED: 200
+Sample 8 - LED: 0
+Sample 9 - LED: 0
+Sample 10 - LED: 0
+Sample 11 - LED: 0
+Sample 12 - LED: 0
+Sample 13 - LED: 11
+Sample 14 - LED: 1
+Sample 15 - LED: 10
+Sample 16 - LED: 10
+Sample 17 - LED: 88
+Sample 18 - LED: 267
+Sample 19 - LED: 70
+Sample 20 - LED: 0
+Sample 21 - LED: 231
+Sample 22 - LED: 354
+Sample 23 - LED: 82
+Sample 24 - LED: 0
+Sample 25 - LED: 0
+Sample 26 - LED: 0
+Successfully read 27 samples from FIFO
+Raw: 8, Filtered: 16
+Raw: 5, Filtered: 18
+Raw: 41, Filtered: 17
+Raw: 159, Filtered: 14
+Raw: 16, Filtered: 8
+Raw: 19, Filtered: 2
+Raw: 351, Filtered: -4
+Raw: 200, Filtered: -8
+Raw: 0, Filtered: -10
+Raw: 0, Filtered: -9
+Raw: 0, Filtered: -6
+Raw: 0, Filtered: -1
+Raw: 0, Filtered: 5
+BEATBPM: 17.6, Avg BPM: 0.0Raw: 11, Filtered: 12
+Raw: 1, Filtered: 17
+Raw: 10, Filtered: 22
+Raw: 10, Filtered: 23
+Raw: 88, Filtered: 22
+Raw: 267, Filtered: 19
+Raw: 70, Filtered: 14
+Raw: 0, Filtered: 8
+Raw: 231, Filtered: 3
+Raw: 354, Filtered: 0
+Raw: 82, Filtered: -1
+Raw: 0, Filtered: 1
+BEATBPM: 2307.7, Avg BPM: 0.0Raw: 0, Filtered: 6
+Raw: 0, Filtered: 13
+Sample 0 - LED: 2
+Sample 1 - LED: 17
+Sample 2 - LED: 4
+Sample 3 - LED: 3
+Sample 4 - LED: 4
+Sample 5 - LED: 41
+Sample 6 - LED: 264
+Sample 7 - LED: 206
+Sample 8 - LED: 0
+Sample 9 - LED: 0
+Sample 10 - LED: 250
+Sample 11 - LED: 286
+Sample 12 - LED: 25
+Sample 13 - LED: 0
+Sample 14 - LED: 0
+Sample 15 - LED: 0
+Sample 16 - LED: 1
+Sample 17 - LED: 0
+Sample 18 - LED: 3
+Sample 19 - LED: 9
+Sample 20 - LED: 69
+Sample 21 - LED: 273
+Sample 22 - LED: 218
+Sample 23 - LED: 5
+Sample 24 - LED: 0
+Sample 25 - LED: 51
+Sample 26 - LED: 359
+Sample 27 - LED: 146
+Successfully read 28 samples from FIFO
+Raw: 2, Filtered: 22
+Raw: 17, Filtered: 30
+Raw: 4, Filtered: 36
+Raw: 3, Filtered: 40
+Raw: 4, Filtered: 41
+Raw: 41, Filtered: 38
+Raw: 264, Filtered: 32
+Raw: 206, Filtered: 24
+Raw: 0, Filtered: 14
+Raw: 0, Filtered: 5
+Raw: 250, Filtered: -3
+Raw: 286, Filtered: -7
+Raw: 25, Filtered: -9
+Raw: 0, Filtered: -7
+Raw: 0, Filtered: -3
+Raw: 0, Filtered: 4
+BEATBPM: 55.5, Avg BPM: 14.0Raw: 1, Filtered: 11
+Raw: 0, Filtered: 17
+Raw: 3, Filtered: 22
+Raw: 9, Filtered: 24
+Raw: 69, Filtered: 23
+Raw: 273, Filtered: 19
+Raw: 218, Filtered: 13
+Raw: 5, Filtered: 6
+Raw: 0, Filtered: -1
+Raw: 51, Filtered: -7
+Raw: 359, Filtered: -10
+Raw: 146, Filtered: -11
+Sample 0 - LED: 0
+Sample 1 - LED: 0
+Sample 2 - LED: 0
+Sample 3 - LED: 14
+Sample 4 - LED: 5
+Sample 5 - LED: 0
+Sample 6 - LED: 4
+Sample 7 - LED: 43
+Sample 8 - LED: 247
+Sample 9 - LED: 252
+Sample 10 - LED: 44
+Sample 11 - LED: 0
+Sample 12 - LED: 0
+Sample 13 - LED: 238
+Sample 14 - LED: 278
+Sample 15 - LED: 13
+Sample 16 - LED: 0
+Sample 17 - LED: 0
+Sample 18 - LED: 1
+Sample 19 - LED: 11
+Sample 20 - LED: 2
+Sample 21 - LED: 2
+Sample 22 - LED: 30
+Sample 23 - LED: 189
+Sample 24 - LED: 287
+Sample 25 - LED: 109
+Sample 26 - LED: 0
+Successfully read 27 samples from FIFO
+Raw: 0, Filtered: -9
+Raw: 0, Filtered: -5
+Raw: 0, Filtered: 1
+BEATBPM: 55.4, Avg BPM: 28.0Raw: 14, Filtered: 8
+Raw: 5, Filtered: 14
+Raw: 0, Filtered: 18
+Raw: 4, Filtered: 20
+Raw: 43, Filtered: 20
+Raw: 247, Filtered: 17
+Raw: 252, Filtered: 12
+Raw: 44, Filtered: 6
+Raw: 0, Filtered: -1
+Raw: 0, Filtered: -7
+Raw: 238, Filtered: -10
+Raw: 278, Filtered: -12
+Raw: 13, Filtered: -11
+Raw: 0, Filtered: -7
+Raw: 0, Filtered: -2
+Raw: 1, Filtered: 4
+BEATBPM: 1764.7, Avg BPM: 28.0Raw: 11, Filtered: 10
+Raw: 2, Filtered: 14
+Raw: 2, Filtered: 15
+Raw: 30, Filtered: 15
+Raw: 189, Filtered: 13
+Raw: 287, Filtered: 9
+Raw: 109, Filtered: 3
+Raw: 0, Filtered: -3
+Sample 0 - LED: 0
+Sample 1 - LED: 157
+Sample 2 - LED: 328
+Sample 3 - LED: 56
+Sample 4 - LED: 0
+Sample 5 - LED: 0
+Sample 6 - LED: 4
+Sample 7 - LED: 6
+Sample 8 - LED: 0
+Sample 9 - LED: 2
+Sample 10 - LED: 23
+Sample 11 - LED: 179
+Sample 12 - LED: 294
+Sample 13 - LED: 106
+Sample 14 - LED: 0
+Sample 15 - LED: 0
+Sample 16 - LED: 33
+Sample 17 - LED: 345
+Sample 18 - LED: 136
+Sample 19 - LED: 0
+Sample 20 - LED: 0
+Sample 21 - LED: 11
+Sample 22 - LED: 6
+Sample 23 - LED: 4
+Sample 24 - LED: 12
+Sample 25 - LED: 35
+Sample 26 - LED: 195
+Sample 27 - LED: 293
+Successfully read 28 samples from FIFO
+Raw: 0, Filtered: -8
+Raw: 157, Filtered: -12
+Raw: 328, Filtered: -13
+Raw: 56, Filtered: -11
+Raw: 0, Filtered: -8
+Raw: 0, Filtered: -3
+Raw: 4, Filtered: 4
+BEATBPM: 55.8, Avg BPM: 42.0Raw: 6, Filtered: 10
+Raw: 0, Filtered: 15
+Raw: 2, Filtered: 18
+Raw: 23, Filtered: 17
+Raw: 179, Filtered: 16
+Raw: 294, Filtered: 12
+Raw: 106, Filtered: 6
+Raw: 0, Filtered: 0
+Raw: 0, Filtered: -6
+Raw: 33, Filtered: -11
+Raw: 345, Filtered: -13
+Raw: 136, Filtered: -13
+Raw: 0, Filtered: -11
+Raw: 0, Filtered: -7
+Raw: 11, Filtered: -2
+Raw: 6, Filtered: 4
+BEATBPM: 1764.7, Avg BPM: 42.0Raw: 4, Filtered: 8
+Raw: 12, Filtered: 11
+Raw: 35, Filtered: 11
+Raw: 195, Filtered: 11
+Raw: 293, Filtered: 9
+Sample 0 - LED: 96
+Sample 1 - LED: 2
+Sample 2 - LED: 0
+Sample 3 - LED: 0
+Sample 4 - LED: 129
+Sample 5 - LED: 295
+Sample 6 - LED: 14
+Sample 7 - LED: 0
+Sample 8 - LED: 10
+Sample 9 - LED: 12
+Sample 10 - LED: 14
+Sample 11 - LED: 0
+Sample 12 - LED: 8
+Sample 13 - LED: 111
+Sample 14 - LED: 297
+Sample 15 - LED: 185
+Sample 16 - LED: 11
+Sample 17 - LED: 0
+Sample 18 - LED: 0
+Sample 19 - LED: 11
+Sample 20 - LED: 312
+Sample 21 - LED: 85
+Sample 22 - LED: 0
+Sample 23 - LED: 0
+Sample 24 - LED: 10
+Sample 25 - LED: 5
+Sample 26 - LED: 2
+Successfully read 27 samples from FIFO
+Raw: 96, Filtered: 5
+Raw: 2, Filtered: 1
+Raw: 0, Filtered: -4
+Raw: 0, Filtered: -8
+Raw: 129, Filtered: -10
+Raw: 295, Filtered: -9
+Raw: 14, Filtered: -8
+Raw: 0, Filtered: -6
+Raw: 10, Filtered: -2
+Raw: 12, Filtered: 2
+BEATBPM: 55.6, Avg BPM: 56.0Raw: 14, Filtered: 4
+Raw: 0, Filtered: 6
+Raw: 8, Filtered: 5
+Raw: 111, Filtered: 3
+Raw: 297, Filtered: 1
+Raw: 185, Filtered: -3
+Raw: 11, Filtered: -7
+Raw: 0, Filtered: -10
+Raw: 0, Filtered: -13
+Raw: 11, Filtered: -14
+Raw: 312, Filtered: -12
+Raw: 85, Filtered: -10
+Raw: 0, Filtered: -7
+Raw: 0, Filtered: -3
+Raw: 10, Filtered: 1
+Raw: 5, Filtered: 4
+Raw: 2, Filtered: 5
+Sample 0 - LED: 10
+Sample 1 - LED: 61
+Sample 2 - LED: 264
+Sample 3 - LED: 249
+Sample 4 - LED: 31
+Sample 5 - LED: 0
+Sample 6 - LED: 0
+Sample 7 - LED: 0
+Sample 8 - LED: 217
+Sample 9 - LED: 160
+Sample 10 - LED: 0
+Sample 11 - LED: 0
+Sample 12 - LED: 8
+Sample 13 - LED: 12
+Sample 14 - LED: 10
+Sample 15 - LED: 2
+Sample 16 - LED: 49
+Sample 17 - LED: 251
+Sample 18 - LED: 253
+Sample 19 - LED: 40
+Sample 20 - LED: 0
+Sample 21 - LED: 0
+Sample 22 - LED: 0
+Sample 23 - LED: 178
+Sample 24 - LED: 167
+Sample 25 - LED: 0
+Sample 26 - LED: 0
+Sample 27 - LED: 5
+Successfully read 28 samples from FIFO
+Raw: 10, Filtered: 5
+Raw: 61, Filtered: 3
+Raw: 264, Filtered: 1
+Raw: 249, Filtered: -2
+Raw: 31, Filtered: -6
+Raw: 0, Filtered: -9
+Raw: 0, Filtered: -12
+Raw: 0, Filtered: -13
+Raw: 217, Filtered: -12
+Raw: 160, Filtered: -10
+Raw: 0, Filtered: -7
+Raw: 0, Filtered: -3
+Raw: 8, Filtered: 1
+Raw: 12, Filtered: 5
+Raw: 10, Filtered: 6
+Raw: 2, Filtered: 6
+Raw: 49, Filtered: 4
+Raw: 251, Filtered: 2
+Raw: 253, Filtered: -1
+Raw: 40, Filtered: -4
+Raw: 0, Filtered: -8
+Raw: 0, Filtered: -10
+Raw: 0, Filtered: -11
+Raw: 178, Filtered: -11
+Raw: 167, Filtered: -8
+Raw: 0, Filtered: -6
+Raw: 0, Filtered: -2
+Raw: 5, Filtered: 1
+Sample 0 - LED: 6
+Sample 1 - LED: 0
+Sample 2 - LED: 6
+Sample 3 - LED: 103
+Sample 4 - LED: 302
+Sample 5 - LED: 192
+Sample 6 - LED: 8
+Sample 7 - LED: 0
+Sample 8 - LED: 0
+Sample 9 - LED: 0
+Sample 10 - LED: 81
+Sample 11 - LED: 146
+Sample 12 - LED: 0
+Sample 13 - LED: 4
+Sample 14 - LED: 0
+Sample 15 - LED: 9
+Sample 16 - LED: 18
+Sample 17 - LED: 13
+Sample 18 - LED: 122
+Sample 19 - LED: 302
+Sample 20 - LED: 168
+Sample 21 - LED: 3
+Sample 22 - LED: 4
+Sample 23 - LED: 0
+Sample 24 - LED: 0
+Sample 25 - LED: 39
+Sample 26 - LED: 93
+Successfully read 27 samples from FIFO
+Raw: 6, Filtered: 4
+Raw: 0, Filtered: 5
+Raw: 6, Filtered: 5
+Raw: 103, Filtered: 3
+Raw: 302, Filtered: 1
+Raw: 192, Filtered: -2
+Raw: 8, Filtered: -5
+Raw: 0, Filtered: -8
+Raw: 0, Filtered: -9
+Raw: 0, Filtered: -10
+Raw: 81, Filtered: -9
+Raw: 146, Filtered: -7
+Raw: 0, Filtered: -5
+Raw: 4, Filtered: -2
+Raw: 0, Filtered: 0
+Raw: 9, Filtered: 1
+Raw: 18, Filtered: 0
+Raw: 13, Filtered: -2
+Raw: 122, Filtered: -5
+Raw: 302, Filtered: -9
+Raw: 168, Filtered: -11
+Raw: 3, Filtered: -14
+Raw: 4, Filtered: -15
+Raw: 0, Filtered: -15
+Raw: 0, Filtered: -13
+Raw: 39, Filtered: -10
+Raw: 93, Filtered: -7
+Sample 0 - LED: 0
+Sample 1 - LED: 4
+Sample 2 - LED: 4
+Sample 3 - LED: 7
+Sample 4 - LED: 10
+Sample 5 - LED: 31
+Sample 6 - LED: 221
+Sample 7 - LED: 281
+Sample 8 - LED: 65
+Sample 9 - LED: 2
+Sample 10 - LED: 3
+Sample 11 - LED: 0
+Sample 12 - LED: 0
+Sample 13 - LED: 0
+Sample 14 - LED: 32
+Sample 15 - LED: 112
+Sample 16 - LED: 40
+Sample 17 - LED: 2
+Sample 18 - LED: 0
+Sample 19 - LED: 6
+Sample 20 - LED: 49
+Sample 21 - LED: 251
+Sample 22 - LED: 256
+Sample 23 - LED: 40
+Sample 24 - LED: 6
+Sample 25 - LED: 14
+Sample 26 - LED: 3
+Sample 27 - LED: 0
+Successfully read 28 samples from FIFO
+Raw: 0, Filtered: -3
+Raw: 4, Filtered: 0
+Raw: 4, Filtered: 3
+Raw: 7, Filtered: 3
+Raw: 10, Filtered: 1
+Raw: 31, Filtered: -3
+Raw: 221, Filtered: -7
+Raw: 281, Filtered: -11
+Raw: 65, Filtered: -15
+Raw: 2, Filtered: -17
+Raw: 3, Filtered: -18
+Raw: 0, Filtered: -17
+Raw: 0, Filtered: -14
+Raw: 0, Filtered: -10
+Raw: 32, Filtered: -6
+Raw: 112, Filtered: -1
+Raw: 40, Filtered: 2
+BEATBPM: 18.1, Avg BPM: 56.0Raw: 2, Filtered: 5
+Raw: 0, Filtered: 5
+Raw: 6, Filtered: 3
+Raw: 49, Filtered: 0
+Raw: 251, Filtered: -4
+Raw: 256, Filtered: -7
+Raw: 40, Filtered: -10
+Raw: 6, Filtered: -11
+Raw: 14, Filtered: -10
+Raw: 3, Filtered: -8
+Raw: 0, Filtered: -4
+Sample 0 - LED: 0
+Sample 1 - LED: 0
+Sample 2 - LED: 186
+Sample 3 - LED: 195
+Sample 4 - LED: 2
+Sample 5 - LED: 0
+Sample 6 - LED: 1
+Sample 7 - LED: 49
+Sample 8 - LED: 270
+Sample 9 - LED: 243
+Sample 10 - LED: 27
+Sample 11 - LED: 8
+Sample 12 - LED: 4
+Sample 13 - LED: 7
+Sample 14 - LED: 0
+Sample 15 - LED: 0
+Sample 16 - LED: 0
+Sample 17 - LED: 79
+Sample 18 - LED: 357
+Sample 19 - LED: 92
+Sample 20 - LED: 7
+Sample 21 - LED: 6
+Sample 22 - LED: 99
+Sample 23 - LED: 289
+Sample 24 - LED: 202
+Sample 25 - LED: 12
+Sample 26 - LED: 3
+Successfully read 27 samples from FIFO
+Raw: 0, Filtered: 0
+Raw: 0, Filtered: 4
+Raw: 186, Filtered: 8
+Raw: 195, Filtered: 12
+Raw: 2, Filtered: 13
+Raw: 0, Filtered: 13
+Raw: 1, Filtered: 12
+Raw: 49, Filtered: 9
+Raw: 270, Filtered: 7
+Raw: 243, Filtered: 6
+Raw: 27, Filtered: 5
+Raw: 8, Filtered: 5
+Raw: 4, Filtered: 7
+Raw: 7, Filtered: 9
+Raw: 0, Filtered: 12
+Raw: 0, Filtered: 15
+Raw: 0, Filtered: 16
+Raw: 79, Filtered: 16
+Raw: 357, Filtered: 17
+Raw: 92, Filtered: 15
+Raw: 7, Filtered: 12
+Raw: 6, Filtered: 9
+Raw: 99, Filtered: 6
+Raw: 289, Filtered: 4
+Raw: 202, Filtered: 4
+Raw: 12, Filtered: 5
+Raw: 3, Filtered: 8
+Sample 0 - LED: 3
+Sample 1 - LED: 9
+Sample 2 - LED: 0
+Sample 3 - LED: 0
+Sample 4 - LED: 0
+Sample 5 - LED: 34
+Sample 6 - LED: 360
+Sample 7 - LED: 146
+Sample 8 - LED: 0
+Sample 9 - LED: 1
+Sample 10 - LED: 70
+Sample 11 - LED: 274
+Sample 12 - LED: 207
+Sample 13 - LED: 24
+Sample 14 - LED: 13
+Sample 15 - LED: 3
+Sample 16 - LED: 4
+Sample 17 - LED: 0
+Sample 18 - LED: 0
+Sample 19 - LED: 0
+Sample 20 - LED: 61
+Sample 21 - LED: 357
+Sample 22 - LED: 129
+Sample 23 - LED: 0
+Sample 24 - LED: 1
+Sample 25 - LED: 137
+Sample 26 - LED: 297
+Sample 27 - LED: 134
+Successfu

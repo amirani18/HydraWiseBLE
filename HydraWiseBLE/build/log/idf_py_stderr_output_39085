@@ -1,0 +1,90 @@
+Command: /Users/areej/.espressif/python_env/idf5.5_py3.13_env/bin/python /Users/areej/esp/esp-idf/tools/idf_monitor.py -p /dev/cu.usbserial-0001 -b 115200 --toolchain-prefix xtensa-esp32-elf- --target esp32 --revision 0 /Users/areej/HydraWiseBLE/HydraWiseBLE/build/HydraWiseBLE.elf /Users/areej/HydraWiseBLE/HydraWiseBLE/build/bootloader/bootloader.elf -m '/Users/areej/.espressif/python_env/idf5.5_py3.13_env/bin/python' '/Users/areej/esp/esp-idf/tools/idf.py'
+[0;33m--- esp-idf-monitor 1.6.0 on /dev/cu.usbserial-0001 115200[0m
+[0;33m--- Quit: Ctrl+] | Menu: Ctrl+T | Help: Ctrl+T followed by Ctrl+H[0m
+[0;33m--- 0x40080400: _invalid_pc_placeholder at /Users/areej/esp/esp-idf/components/xtensa/xtensa_vectors.S:2235
+[0m
+[0;33m--- 0x40080638: call_start_cpu0 at /Users/areej/esp/esp-idf/components/bootloader/subproject/main/bootloader_start.c:25
+[0m
+[0;33m--- 0x40084afa: esp_crosscore_isr at /Users/areej/esp/esp-idf/components/esp_system/crosscore_int.c:74
+--- 0x40083a09: _xt_lowint1 at /Users/areej/esp/esp-idf/components/xtensa/xtensa_vectors.S:1240
+--- 0x400d86f6: notify_conductivity_task at /Users/areej/HydraWiseBLE/HydraWiseBLE/main/HydraWiseBLE.c:156
+--- 0x4008f9d1: vPortTaskWrapper at /Users/areej/esp/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:139
+[0m
+[0;33m--- 0x40084afa: esp_crosscore_isr at /Users/areej/esp/esp-idf/components/esp_system/crosscore_int.c:74
+--- 0x40083a09: _xt_lowint1 at /Users/areej/esp/esp-idf/components/xtensa/xtensa_vectors.S:1240
+--- 0x400d86f6: notify_conductivity_task at /Users/areej/HydraWiseBLE/HydraWiseBLE/main/HydraWiseBLE.c:156
+--- 0x4008f9d1: vPortTaskWrapper at /Users/areej/esp/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:139
+[0m
+[0;33m--- 0x40084afa: esp_crosscore_isr at /Users/areej/esp/esp-idf/components/esp_system/crosscore_int.c:74
+--- 0x40083a09: _xt_lowint1 at /Users/areej/esp/esp-idf/components/xtensa/xtensa_vectors.S:1240
+--- 0x400d86f0: notify_conductivity_task at /Users/areej/HydraWiseBLE/HydraWiseBLE/main/HydraWiseBLE.c:154
+--- 0x4008f9d1: vPortTaskWrapper at /Users/areej/esp/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:139
+[0m
+[0;33m--- 0x40084afa: esp_crosscore_isr at /Users/areej/esp/esp-idf/components/esp_system/crosscore_int.c:74
+--- 0x40083a09: _xt_lowint1 at /Users/areej/esp/esp-idf/components/xtensa/xtensa_vectors.S:1240
+--- 0x400d86f3: notify_conductivity_task at /Users/areej/HydraWiseBLE/HydraWiseBLE/main/HydraWiseBLE.c:156
+--- 0x4008f9d1: vPortTaskWrapper at /Users/areej/esp/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:139
+[0m
+[0;33m--- 0x40084afa: esp_crosscore_isr at /Users/areej/esp/esp-idf/components/esp_system/crosscore_int.c:74
+--- 0x40083a09: _xt_lowint1 at /Users/areej/esp/esp-idf/components/xtensa/xtensa_vectors.S:1240
+--- 0x400d86f6: notify_conductivity_task at /Users/areej/HydraWiseBLE/HydraWiseBLE/main/HydraWiseBLE.c:156
+--- 0x4008f9d1: vPortTaskWrapper at /Users/areej/esp/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:139
+[0m
+[0;33m--- 0x40084afa: esp_crosscore_isr at /Users/areej/esp/esp-idf/components/esp_system/crosscore_int.c:74
+--- 0x40083a09: _xt_lowint1 at /Users/areej/esp/esp-idf/components/xtensa/xtensa_vectors.S:1240
+--- 0x400d86f6: notify_conductivity_task at /Users/areej/HydraWiseBLE/HydraWiseBLE/main/HydraWiseBLE.c:156
+--- 0x4008f9d1: vPortTaskWrapper at /Users/areej/esp/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:139
+[0m
+[0;33m--- 0x40084afa: esp_crosscore_isr at /Users/areej/esp/esp-idf/components/esp_system/crosscore_int.c:74
+--- 0x40083a09: _xt_lowint1 at /Users/areej/esp/esp-idf/components/xtensa/xtensa_vectors.S:1240
+--- 0x400d86f6: notify_conductivity_task at /Users/areej/HydraWiseBLE/HydraWiseBLE/main/HydraWiseBLE.c:156
+--- 0x4008f9d1: vPortTaskWrapper at /Users/areej/esp/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:139
+[0m
+[0;33m--- 0x40084afa: esp_crosscore_isr at /Users/areej/esp/esp-idf/components/esp_system/crosscore_int.c:74
+--- 0x40083a09: _xt_lowint1 at /Users/areej/esp/esp-idf/components/xtensa/xtensa_vectors.S:1240
+--- 0x400d86f6: notify_conductivity_task at /Users/areej/HydraWiseBLE/HydraWiseBLE/main/HydraWiseBLE.c:156
+--- 0x4008f9d1: vPortTaskWrapper at /Users/areej/esp/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:139
+[0m
+[0;33m--- 0x40084afa: esp_crosscore_isr at /Users/areej/esp/esp-idf/components/esp_system/crosscore_int.c:74
+--- 0x40083a09: _xt_lowint1 at /Users/areej/esp/esp-idf/components/xtensa/xtensa_vectors.S:1240
+--- 0x400d86f6: notify_conductivity_task at /Users/areej/HydraWiseBLE/HydraWiseBLE/main/HydraWiseBLE.c:156
+--- 0x4008f9d1: vPortTaskWrapper at /Users/areej/esp/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:139
+[0m
+[0;33m--- 0x40084afa: esp_crosscore_isr at /Users/areej/esp/esp-idf/components/esp_system/crosscore_int.c:74
+--- 0x40083a09: _xt_lowint1 at /Users/areej/esp/esp-idf/components/xtensa/xtensa_vectors.S:1240
+--- 0x400d86f6: notify_conductivity_task at /Users/areej/HydraWiseBLE/HydraWiseBLE/main/HydraWiseBLE.c:156
+--- 0x4008f9d1: vPortTaskWrapper at /Users/areej/esp/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:139
+[0m
+[0;33m--- 0x40084afa: esp_crosscore_isr at /Users/areej/esp/esp-idf/components/esp_system/crosscore_int.c:74
+--- 0x40083a09: _xt_lowint1 at /Users/areej/esp/esp-idf/components/xtensa/xtensa_vectors.S:1240
+--- 0x400d86f0: notify_conductivity_task at /Users/areej/HydraWiseBLE/HydraWiseBLE/main/HydraWiseBLE.c:154
+--- 0x4008f9d1: vPortTaskWrapper at /Users/areej/esp/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:139
+[0m
+[0;33m--- 0x40084afa: esp_crosscore_isr at /Users/areej/esp/esp-idf/components/esp_system/crosscore_int.c:74
+--- 0x40083a09: _xt_lowint1 at /Users/areej/esp/esp-idf/components/xtensa/xtensa_vectors.S:1240
+--- 0x400d86f0: notify_conductivity_task at /Users/areej/HydraWiseBLE/HydraWiseBLE/main/HydraWiseBLE.c:154
+--- 0x4008f9d1: vPortTaskWrapper at /Users/areej/esp/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:139
+[0m
+[0;33m--- 0x40084afa: esp_crosscore_isr at /Users/areej/esp/esp-idf/components/esp_system/crosscore_int.c:74
+--- 0x40083a09: _xt_lowint1 at /Users/areej/esp/esp-idf/components/xtensa/xtensa_vectors.S:1240
+--- 0x400d86f0: notify_conductivity_task at /Users/areej/HydraWiseBLE/HydraWiseBLE/main/HydraWiseBLE.c:154
+--- 0x4008f9d1: vPortTaskWrapper at /Users/areej/esp/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:139
+[0m
+[0;33m--- 0x40084afa: esp_crosscore_isr at /Users/areej/esp/esp-idf/components/esp_system/crosscore_int.c:74
+--- 0x40083a09: _xt_lowint1 at /Users/areej/esp/esp-idf/components/xtensa/xtensa_vectors.S:1240
+--- 0x400d86f0: notify_conductivity_task at /Users/areej/HydraWiseBLE/HydraWiseBLE/main/HydraWiseBLE.c:154
+--- 0x4008f9d1: vPortTaskWrapper at /Users/areej/esp/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:139
+[0m
+[0;33m--- 0x40084afa: esp_crosscore_isr at /Users/areej/esp/esp-idf/components/esp_system/crosscore_int.c:74
+--- 0x40083a09: _xt_lowint1 at /Users/areej/esp/esp-idf/components/xtensa/xtensa_vectors.S:1240
+--- 0x400d86f0: notify_conductivity_task at /Users/areej/HydraWiseBLE/HydraWiseBLE/main/HydraWiseBLE.c:154
+--- 0x4008f9d1: vPortTaskWrapper at /Users/areej/esp/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:139
+[0m
+[0;33m--- 0x40084afa: esp_crosscore_isr at /Users/areej/esp/esp-idf/components/esp_system/crosscore_int.c:74
+--- 0x40083a09: _xt_lowint1 at /Users/areej/esp/esp-idf/components/xtensa/xtensa_vectors.S:1240
+--- 0x400d86f0: notify_conductivity_task at /Users/areej/HydraWiseBLE/HydraWiseBLE/main/HydraWiseBLE.c:154
+--- 0x4008f9d1: vPortTaskWrapper at /Users/areej/esp/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:139
+[0m
+[0;33m--- 0x40084afa: esp_crosscore_isr at /Users/areej/esp/esp-idf/components/esp_system/crosscore_int.c:74
+--- 0x40083a09: _xt_lowint1 at /Users/areej/esp/esp-idf/components/xtensa/xtensa_vectors.S:1240
+--- 0x400d86f0: notify_conductivity_task at /Users/ar

@@ -1,0 +1,624 @@
+Command: /Users/areej/.espressif/python_env/idf5.5_py3.13_env/bin/python /Users/areej/esp/esp-idf/tools/idf_monitor.py -p /dev/cu.usbserial-0001 -b 115200 --toolchain-prefix xtensa-esp32-elf- --target esp32 --revision 0 /Users/areej/HydraWiseBLE/HydraWiseBLE/build/HydraWiseBLE.elf /Users/areej/HydraWiseBLE/HydraWiseBLE/build/bootloader/bootloader.elf -m '/Users/areej/.espressif/python_env/idf5.5_py3.13_env/bin/python' '/Users/areej/esp/esp-idf/tools/idf.py'
+ets Jul 29 2019 12:21:46
+
+rst:0x1 (POWERON_RESET),boot:0x17 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:6368
+load:0x40078000,len:15880
+load:0x40080400,len:3860
+entry 0x40080638
+[0;32mI (27) boot: ESP-IDF v5.5-dev-2657-g23c73cdc37 2nd stage bootloader[0m
+[0;32mI (27) boot: compile time Apr  2 2025 14:12:15[0m
+[0;32mI (28) boot: Multicore bootloader[0m
+[0;32mI (30) boot: chip revision: v3.0[0m
+[0;32mI (33) boot.esp32: SPI Speed      : 40MHz[0m
+[0;32mI (37) boot.esp32: SPI Mode       : DIO[0m
+[0;32mI (40) boot.esp32: SPI Flash Size : 2MB[0m
+[0;32mI (44) boot: Enabling RNG early entropy source...[0m
+[0;32mI (49) boot: Partition Table:[0m
+[0;32mI (51) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (57) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (64) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (71) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (77) boot: End of partition table[0m
+[0;32mI (80) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=12090h ( 73872) map[0m
+[0;32mI (113) esp_image: segment 1: paddr=000220b8 vaddr=3ff80000 size=0001ch (    28) load[0m
+[0;32mI (113) esp_image: segment 2: paddr=000220dc vaddr=3ffbdb60 size=04da0h ( 19872) load[0m
+[0;32mI (124) esp_image: segment 3: paddr=00026e84 vaddr=40080000 size=09194h ( 37268) load[0m
+[0;32mI (139) esp_image: segment 4: paddr=00030020 vaddr=400d0020 size=524a4h (337060) map[0m
+[0;32mI (255) esp_image: segment 5: paddr=000824cc vaddr=40089194 size=0eacch ( 60108) load[0m
+[0;32mI (290) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (290) boot: Disabling RNG early entropy source...[0m
+[0;32mI (300) cpu_start: Multicore app[0m
+[0;32mI (309) cpu_start: Pro cpu start user code[0m
+[0;32mI (309) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (309) app_init: Application information:[0m
+[0;32mI (309) app_init: Project name:     HydraWiseBLE[0m
+[0;32mI (313) app_init: App version:      8cdc01e-dirty[0m
+[0;32mI (318) app_init: Compile time:     Apr  4 2025 14:11:18[0m
+[0;32mI (323) app_init: ELF file SHA256:  758efd7e0...[0m
+[0;32mI (327) app_init: ESP-IDF:          v5.5-dev-2657-g23c73cdc37[0m
+[0;32mI (333) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (336) efuse_init: Max chip rev:     v3.99 [0m
+[0;32mI (340) efuse_init: Chip rev:         v3.0[0m
+[0;32mI (345) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (351) heap_init: At 3FFAFF10 len 000000F0 (0 KiB): DRAM[0m
+[0;32mI (356) heap_init: At 3FFB6388 len 00001C78 (7 KiB): DRAM[0m
+[0;32mI (361) heap_init: At 3FFB9A20 len 00004108 (16 KiB): DRAM[0m
+[0;32mI (366) heap_init: At 3FFC56E0 len 0001A920 (106 KiB): DRAM[0m
+[0;32mI (371) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM[0m
+[0;32mI (377) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM[0m
+[0;32mI (382) heap_init: At 40097C60 len 000083A0 (32 KiB): IRAM[0m
+[0;32mI (389) spi_flash: detected chip: generic[0m
+[0;32mI (391) spi_flash: flash io: dio[0m
+[0;33mW (394) spi_flash: Detected size(4096k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (407) coexist: coex firmware version: e727207[0m
+[0;32mI (411) main_task: Started on CPU0[0m
+[0;32mI (421) main_task: Calling app_main()[0m
+[0;32mI (431) BTDM_INIT: BT controller compile version [e250cf1][0m
+[0;32mI (431) BTDM_INIT: Bluetooth MAC: ec:62:60:1f:15:8a[0m
+[0;32mI (431) phy_init: phy_version 4860,6b7a6e5,Feb  6 2025,14:47:07[0m
+[0;32mI (761) main_task: Returned from app_main()[0m
+[0;32mI (801) NimBLE: Failed to restore IRKs from store; status=8[0m
+
+[0;32mI (801) NimBLE: GAP procedure initiated: advertise; [0m
+[0;32mI (801) NimBLE: disc_mode=2[0m
+[0;32mI (801) NimBLE:  adv_channel_map=0 own_addr_type=0 adv_filter_policy=0 adv_itvl_min=0 adv_itvl_max=0[0m
+[0;32mI (811) NimBLE: [0m
+
+[0;32mI (811) HydraWise-BLE-Server: Attempting to locate Heart Rate Characteristic UUID: 0x2A37 in Service UUID: 0x180D[0m
+[0;32mI (821) HydraWise-BLE-Server: Heart Rate Measurement characteristic handle: 20[0m
+[0;32mI (831) HydraWise-BLE-Server: Attempting to locate Conductivity Characteristic UUID: 0xAA5B9750C9824CE690C754C0C8C6AE84 in Service UUID: 0x181C[0m
+[0;32mI (841) HydraWise-BLE-Server: Conductivity characteristic handle: 24[0m
+[0;32mI (941) GAP: Device connected[0m
+[0;32mI (21831) GAP: Device connected[0m
+[0;32mI (52381) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (52501) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (52651) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (52831) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (53011) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (53191) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (53341) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (53461) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (53641) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (53821) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (53971) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (54091) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (54211) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (54361) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (54511) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (54661) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (54871) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (54991) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (55111) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (55291) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (55411) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (55531) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (55651) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (55771) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (55921) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (56041) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (56161) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (56341) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (56551) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (56671) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (56851) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (56971) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (57091) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (57241) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (57361) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (57481) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (57601) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (57781) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (57901) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (58021) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (58141) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (58261) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (58381) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (58501) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (58651) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (58771) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (58891) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (59011) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (59161) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (59311) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (59431) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (59581) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (59731) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (59911) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (60061) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (60181) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (60361) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (60481) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (60601) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (60721) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (60841) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (60961) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (61081) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (61201) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (61321) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (61441) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (61651) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (61771) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (61891) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (62011) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (62131) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (62251) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (62401) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (62521) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (62671) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (62791) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (62941) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (63061) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (63211) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (63331) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (63571) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (63811) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (63931) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (64081) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (64231) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (64381) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (64501) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (64621) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (64741) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (64861) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (65011) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (65131) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (65251) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (65371) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (65491) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (65611) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (65731) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (65851) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (65971) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (66091) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (66241) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (66361) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (66481) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (66601) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (66751) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (66871) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (66991) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (67141) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (67261) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (67381) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (67531) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (67681) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (67831) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (67951) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (68101) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (68251) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (68371) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (68491) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (68611) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (68731) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (68851) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (68971) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (69091) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (69211) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (69331) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (69451) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (69571) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (69691) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (69811) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (69931) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (70051) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (70201) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (70321) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (70441) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (70561) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (70681) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (70801) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (70921) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (71071) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (71221) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (71341) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (71491) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (71641) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (71791) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (71941) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (72061) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (72181) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (72331) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (72451) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (72571) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (72691) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (72811) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (72931) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (73051) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (73231) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (73351) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (73501) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (73651) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (73771) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (73921) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (74041) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (74191) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (74311) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (74431) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (74581) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (74701) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (74821) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (74941) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (75091) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (75241) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (75361) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (75481) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (75661) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (75781) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (75931) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (76051) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (76171) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (76291) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (76411) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (76531) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (76651) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (76771) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (76951) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (77071) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (77191) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (77371) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (77551) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (77671) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (77851) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (77971) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (78241) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (78421) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (78571) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (78721) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (78841) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (78961) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (79171) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (79321) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (79501) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (79621) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (79741) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (79891) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (80011) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (80131) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (80251) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (80401) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (80551) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (80671) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (80791) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (80911) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (81031) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (81181) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (81301) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (81451) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (81571) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (81691) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (81811) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (81931) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (82141) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (82261) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (82381) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (82501) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (82681) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (82801) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (82981) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (83101) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (83311) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (83431) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (83551) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (83671) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (83821) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (83941) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (84091) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (84271) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (84451) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (84601) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (84781) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (84931) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (85051) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (85171) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (85291) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (85411) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (85531) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (85651) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (85771) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (85921) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (86041) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (86161) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (86251) HydraWise-BLE-Server: 💓 Client is reading Heart Rate characteristic[0m
+[0;32mI (86371) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (86431) HydraWise-BLE-Server: 💓 Client is reading Heart Rate characteristic[0m
+[0;32mI (86551) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (86611) HydraWise-BLE-Server: 💓 Client is reading Heart Rate characteristic[0m
+[0;32mI (86671) HydraWise-BLE-Server: 💓 Client is reading Heart Rate characteristic[0m
+[0;32mI (86791) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (86941) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (87061) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (87181) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (87301) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (87421) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (87541) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (87661) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (87781) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (87901) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (88081) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (88201) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (88321) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (88441) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (88561) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (88681) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (88801) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (88921) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (89041) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (89191) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (89311) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (89431) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (89551) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (89701) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (89821) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (89941) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (90091) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (90211) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (90391) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (90511) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (90631) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (90781) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (90901) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (91081) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (91201) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (91321) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (91471) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (91591) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (91711) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (91831) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (91891) HydraWise-BLE-Server: 💓 Client is reading Heart Rate characteristic[0m
+[0;32mI (91951) HydraWise-BLE-Server: 💓 Client is reading Heart Rate characteristic[0m
+[0;32mI (92011) HydraWise-BLE-Server: 💓 Client is reading Heart Rate characteristic[0m
+[0;32mI (92071) HydraWise-BLE-Server: 💓 Client is reading Heart Rate characteristic[0m
+[0;32mI (92131) HydraWise-BLE-Server: 💓 Client is reading Heart Rate characteristic[0m
+[0;32mI (92251) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (92371) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (92491) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (92611) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (92731) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (92881) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (93001) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (93121) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (93241) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (93361) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (93481) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (93601) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (93721) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (93871) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (93991) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (94111) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (94261) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (94381) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (94501) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (94651) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (94771) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (94921) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (95041) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (95191) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (95341) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (95491) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (95611) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (95761) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (95881) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (96001) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (96121) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (96241) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (96391) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (96511) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (96661) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (96781) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (96901) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (97051) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (97171) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (97291) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (97411) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (97531) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (97651) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (97771) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (97951) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (98071) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (98221) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (98371) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (98521) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (98641) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (98761) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (98881) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (99001) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (99151) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (99331) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (99451) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (99631) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (99781) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (99901) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (100021) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (100141) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (100261) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (100411) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (100531) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (100651) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (100801) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (100921) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (101041) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (101161) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (101281) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (101401) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (101521) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (101641) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (101791) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (101911) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (102061) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (102181) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (102331) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (102481) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (102601) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (102751) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (102901) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (103021) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (103171) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (103291) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (103411) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (103591) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (103741) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (103861) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (104011) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (104161) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (104311) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (104461) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (104611) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (104761) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (104911) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (105031) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (105151) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (105271) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (105391) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (105541) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (105691) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (105871) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (106051) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (106171) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (106321) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (106471) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (106591) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (106741) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (106891) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (107041) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (107161) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (107341) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (107491) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (107611) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (107731) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (107881) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (108031) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (108151) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (108331) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (108451) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (108571) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (108691) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (108871) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (109021) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (109141) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (109261) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (109381) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (109561) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (109681) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (109801) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (109921) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (110041) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (110161) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (110281) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (110431) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (110551) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (110701) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (110821) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (110941) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (111061) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (111181) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (111331) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (111451) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (111571) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (111721) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (111841) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (112021) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (112171) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (112291) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (112441) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (112561) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (112681) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (112801) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (112951) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (113071) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (113191) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (113341) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (113461) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (113611) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (113791) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (113911) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (114031) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (114151) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (114271) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (114391) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (114511) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (114631) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (114751) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (114871) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (114991) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (115111) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (115291) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (115441) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (115561) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (115681) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (115801) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (115921) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (116041) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (116161) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (116281) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (116401) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (116521) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (116641) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (116761) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (116881) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (116941) HydraWise-BLE-Server: 💓 Client is reading Heart Rate characteristic[0m
+[0;32mI (117061) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (117181) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (117301) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (117421) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (117481) HydraWise-BLE-Server: 💓 Client is reading Heart Rate characteristic[0m
+[0;32mI (117631) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (117781) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (117901) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (118021) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (118081) HydraWise-BLE-Server: 💓 Client is reading Heart Rate characteristic[0m
+[0;32mI (118201) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (118321) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (118381) HydraWise-BLE-Server: 💓 Client is reading Heart Rate characteristic[0m
+[0;32mI (118531) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (118711) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (118891) HydraWise-BLE-Server: 💓 Client is reading Heart Rate characteristic[0m
+[0;32mI (119101) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (119191) HydraWise-BLE-Server: 💓 Client is reading Heart Rate characteristic[0m
+[0;32mI (119371) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (119521) HydraWise-BLE-Server: 💓 Client is reading Heart Rate characteristic[0m
+[0;32mI (119671) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (119731) HydraWise-BLE-Server: 💓 Client is reading Heart Rate characteristic[0m
+[0;32mI (119851) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (119971) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (120031) HydraWise-BLE-Server: 💓 Client is reading Heart Rate characteristic[0m
+[0;32mI (120181) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (120361) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (120481) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (120661) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (120781) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (120901) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (121021) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (121171) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (121321) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (121471) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (121621) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (121771) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (121891) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (122011) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (122131) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (122341) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (122461) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (122611) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (122761) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (122881) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (123001) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (123121) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (123241) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (123361) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (123481) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (123601) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (123691) HydraWise-BLE-Server: 💓 Client is reading Heart Rate characteristic[0m
+[0;32mI (123841) HydraWise-BLE-Server: 💓 Client is reading Heart Rate characteristic[0m
+[0;32mI (124051) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (124201) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (124261) HydraWise-BLE-Server: 💓 Client is reading Heart Rate characteristic[0m
+[0;32mI (124381) HydraWise-BLE-Server: 💓 Client is reading Heart Rate characteristic[0m
+[0;32mI (124591) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (124711) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (124831) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (124981) HydraWise-BLE-Server: 💧 Client is reading Conductivity characteristic[0m
+[0;32mI (125101) HydraWise-BLE-Server: 💧

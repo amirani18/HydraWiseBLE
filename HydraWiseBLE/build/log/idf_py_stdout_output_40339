@@ -1,0 +1,182 @@
+Command: /Users/areej/.espressif/python_env/idf5.5_py3.13_env/bin/python /Users/areej/esp/esp-idf/tools/idf_monitor.py -p /dev/cu.usbserial-0001 -b 115200 --toolchain-prefix xtensa-esp32-elf- --target esp32 --revision 0 /Users/areej/HydraWiseBLE/HydraWiseBLE/build/HydraWiseBLE.elf /Users/areej/HydraWiseBLE/HydraWiseBLE/build/bootloader/bootloader.elf -m '/Users/areej/.espressif/python_env/idf5.5_py3.13_env/bin/python' '/Users/areej/esp/esp-idf/tools/idf.py'
+ets Jul 29 2019 12:21:46
+
+rst:0x1 (POWERON_RESET),boot:0x17 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:6368
+load:0x40078000,len:15880
+load:0x40080400,len:3860
+entry 0x40080638
+[0;32mI (27) boot: ESP-IDF v5.5-dev-2657-g23c73cdc37 2nd stage bootloader[0m
+[0;32mI (27) boot: compile time Apr  2 2025 14:12:15[0m
+[0;32mI (28) boot: Multicore bootloader[0m
+[0;32mI (30) boot: chip revision: v3.0[0m
+[0;32mI (33) boot.esp32: SPI Speed      : 40MHz[0m
+[0;32mI (37) boot.esp32: SPI Mode       : DIO[0m
+[0;32mI (40) boot.esp32: SPI Flash Size : 2MB[0m
+[0;32mI (44) boot: Enabling RNG early entropy source...[0m
+[0;32mI (49) boot: Partition Table:[0m
+[0;32mI (51) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (57) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (64) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (71) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (77) boot: End of partition table[0m
+[0;32mI (80) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=12000h ( 73728) map[0m
+[0;32mI (113) esp_image: segment 1: paddr=00022028 vaddr=3ff80000 size=0001ch (    28) load[0m
+[0;32mI (113) esp_image: segment 2: paddr=0002204c vaddr=3ffbdb60 size=04da0h ( 19872) load[0m
+[0;32mI (124) esp_image: segment 3: paddr=00026df4 vaddr=40080000 size=09224h ( 37412) load[0m
+[0;32mI (139) esp_image: segment 4: paddr=00030020 vaddr=400d0020 size=52418h (336920) map[0m
+[0;32mI (254) esp_image: segment 5: paddr=00082440 vaddr=40089224 size=0ea3ch ( 59964) load[0m
+[0;32mI (290) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (290) boot: Disabling RNG early entropy source...[0m
+[0;32mI (300) cpu_start: Multicore app[0m
+[0;32mI (309) cpu_start: Pro cpu start user code[0m
+[0;32mI (309) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (309) app_init: Application information:[0m
+[0;32mI (309) app_init: Project name:     HydraWiseBLE[0m
+[0;32mI (313) app_init: App version:      8cdc01e-dirty[0m
+[0;32mI (318) app_init: Compile time:     Apr  4 2025 14:11:18[0m
+[0;32mI (323) app_init: ELF file SHA256:  607924071...[0m
+[0;32mI (327) app_init: ESP-IDF:          v5.5-dev-2657-g23c73cdc37[0m
+[0;32mI (332) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (336) efuse_init: Max chip rev:     v3.99 [0m
+[0;32mI (340) efuse_init: Chip rev:         v3.0[0m
+[0;32mI (344) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (351) heap_init: At 3FFAFF10 len 000000F0 (0 KiB): DRAM[0m
+[0;32mI (355) heap_init: At 3FFB6388 len 00001C78 (7 KiB): DRAM[0m
+[0;32mI (361) heap_init: At 3FFB9A20 len 00004108 (16 KiB): DRAM[0m
+[0;32mI (366) heap_init: At 3FFC56E0 len 0001A920 (106 KiB): DRAM[0m
+[0;32mI (371) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM[0m
+[0;32mI (376) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM[0m
+[0;32mI (382) heap_init: At 40097C60 len 000083A0 (32 KiB): IRAM[0m
+[0;32mI (389) spi_flash: detected chip: generic[0m
+[0;32mI (391) spi_flash: flash io: dio[0m
+[0;33mW (394) spi_flash: Detected size(4096k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (407) coexist: coex firmware version: e727207[0m
+[0;32mI (411) main_task: Started on CPU0[0m
+[0;32mI (421) main_task: Calling app_main()[0m
+[0;32mI (431) BTDM_INIT: BT controller compile version [e250cf1][0m
+[0;32mI (431) BTDM_INIT: Bluetooth MAC: ec:62:60:1f:15:8a[0m
+[0;32mI (431) phy_init: phy_version 4860,6b7a6e5,Feb  6 2025,14:47:07[0m
+[0;32mI (751) main_task: Returned from app_main()[0m
+[0;32mI (791) NimBLE: Failed to restore IRKs from store; status=8[0m
+
+[0;32mI (791) NimBLE: GAP procedure initiated: advertise; [0m
+[0;32mI (791) NimBLE: disc_mode=2[0m
+[0;32mI (791) NimBLE:  adv_channel_map=0 own_addr_type=0 adv_filter_policy=0 adv_itvl_min=0 adv_itvl_max=0[0m
+[0;32mI (801) NimBLE: [0m
+
+[0;32mI (811) HydraWise-BLE-Server: Attempting to locate Heart Rate Characteristic UUID: 0x2A37 in Service UUID: 0x180D[0m
+[0;32mI (811) HydraWise-BLE-Server: Heart Rate Measurement characteristic handle: 20[0m
+[0;32mI (821) HydraWise-BLE-Server: Attempting to locate Conductivity Characteristic UUID: 0xAA5B9750C9824CE690C754C0C8C6AE84 in Service UUID: 0x181C[0m
+[0;32mI (831) HydraWise-BLE-Server: Conductivity characteristic handle: 24[0m
+[0;32mI (1291) GAP: Device connected[0m
+[0;32mI (7081) GAP: BLE GAP EVENT DISCONNECT[0m
+[0;32mI (7081) NimBLE: GAP procedure initiated: advertise; [0m
+[0;32mI (7081) NimBLE: disc_mode=2[0m
+[0;32mI (7091) NimBLE:  adv_channel_map=0 own_addr_type=0 adv_filter_policy=0 adv_itvl_min=0 adv_itvl_max=0[0m
+[0;32mI (7091) NimBLE: [0m
+
+[0;32mI (8091) GAP: Device connected[0m
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the client
+Read data from the clien
