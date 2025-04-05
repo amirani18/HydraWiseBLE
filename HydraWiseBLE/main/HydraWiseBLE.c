@@ -68,18 +68,30 @@ static int device_write(uint16_t conn_handle, uint16_t attr_handle,
     struct ble_gatt_access_ctxt *ctxt, void *arg) {
     printf("Received WRITE (handle: %d, conn: %d)\n", attr_handle, conn_handle);
 
-    // Print data as a raw string (if safe)
-    char buf[ctxt->om->om_len + 1]; // +1 for null-termination
-    memcpy(buf, ctxt->om->om_data, ctxt->om->om_len);
-    buf[ctxt->om->om_len] = '\0'; // ensure it's null-terminated
+    // Print raw bytes
+    printf("Raw data: ");
+    for (int i = 0; i < ctxt->om->om_len; i++) {
+        printf("%02x ", ctxt->om->om_data[i]);
+    }
+    printf("\n");
 
-    printf("Data from the client: %s\n", buf);
+    // Convert to string (with null terminator)
+    char buf[ctxt->om->om_len + 1];
+    memcpy(buf, ctxt->om->om_data, ctxt->om->om_len);
+    buf[ctxt->om->om_len] = '\0';
+
+    ESP_LOGI(TAG, "Command received: '%s'", buf);
 
     // You can add parsing logic here
     if (strcmp(buf, "START") == 0) {
         button_state = 1;
         printf("Starting...\n");
         ESP_LOGI(TAG, "START command received. Notifying button state");
+        ble_gattc_notify_custom(conn_handle_global, hrm_handle, hr_om);
+        // Send dummy hydration
+        float dummy_hydration = 1.23f;
+        struct os_mbuf *hydration_om = ble_hs_mbuf_from_flat(&dummy_hydration, sizeof(dummy_hydration));
+        ble_gattc_notify_custom(conn_handle_global, conductivity_handle, hydration_om);
     } else if (strcmp(buf, "STOP") == 0) {
         button_state = 0;
         printf("Stopping...\n");
@@ -88,6 +100,7 @@ static int device_write(uint16_t conn_handle, uint16_t attr_handle,
     
     // notify client about button state change
     if (conn_handle_global != 0 && button_char_handle != 0) {
+        ESP_LOGI(TAG, "🔔 Notifying client with button_state = %d", button_state);
         struct os_mbuf *om = ble_hs_mbuf_from_flat(&button_state, sizeof(button_state));
         int rc = ble_gattc_notify_custom(conn_handle_global, button_char_handle, om);
         if (rc != 0) {
@@ -137,10 +150,11 @@ static const struct ble_gatt_chr_def heart_rate_chr[] = {
 
 // conductivity characteristic
 static const ble_uuid128_t conductivity_uuid =
-    BLE_UUID128_INIT(0xaa, 0x5b, 0x97, 0x50,
-                     0xc9, 0x82, 0x4c, 0xe6,
-                     0x90, 0xc7, 0x54, 0xc0,
-                     0xc8, 0xc6, 0xae, 0x84);
+    BLE_UUID128_INIT(0x50, 0x97, 0x5b, 0xaa,
+        0x82, 0xc9,
+        0xe6, 0x4c,
+        0x90, 0xc7,
+        0x54, 0xc0, 0xc8, 0xc6, 0xae, 0x84);
 
 static struct ble_gatt_chr_def conductivity_chr[] = {
     {
@@ -166,18 +180,20 @@ static const struct ble_gatt_chr_def battery_level_chr[] = {
 };
 
 // button characteristic uuid
-static const ble_uuid128_t button_char_uuid =
-    BLE_UUID128_INIT(0xaa, 0xbb, 0xcc, 0xdd,
-        0xee, 0xff, 0x00, 0x11,
-        0x22, 0x33, 0x44, 0x55,
-        0x66, 0x77, 0x88, 0x99);
+// static const ble_uuid128_t button_char_uuid =
+//     BLE_UUID128_INIT(0x0d, 0x9d, 0xbf, 0x48,
+//         0x5a, 0x2a,
+//         0x2d, 0x48,
+//         0x8d, 0x05,
+//         0x9e, 0x3d, 0x3f, 0xdd, 0x42, 0x5b);
 
 // button characteristic
 static const struct ble_gatt_chr_def button_chr[] = {
     {
-        .uuid = (const ble_uuid_t *)&button_char_uuid,  // Cast to correct type
+        // .uuid = (const ble_uuid_t *)&button_char_uuid,  // Cast to correct type
+        .uuid = BLE_UUID16_DECLARE(0x2A3F), // button
         .access_cb = device_read,
-        .flags = BLE_GATT_CHR_F_READ | BLE_GATT_CHR_F_NOTIFY,
+        .flags = BLE_GATT_CHR_F_READ | BLE_GATT_CHR_F_NOTIFY | BLE_GATT_CHR_F_WRITE,
     },
     {
         0, // NULL TERMINATOR
@@ -189,6 +205,7 @@ void notify_heart_rate_task(void *param) {
     while(1) {
         if (conn_handle_global != 0 && button_state) // Check if connected and running
         {
+            ESP_LOGI(TAG, "📡 Sending heart rate notification because button_state is %d", button_state);
             uint8_t hr_data[2] = { 0x00, 75 }; // Heart rate measurement (75 bpm)   
 
             struct os_mbuf *om = ble_hs_mbuf_from_flat(hr_data, sizeof(hr_data)); // Allocate a packet header
@@ -350,10 +367,10 @@ void ble_app_advertise(void)
     // const uint16_t svc_uuid = 0x180D;
     static const ble_uuid16_t svc_uuids[] = {
         BLE_UUID16_INIT(0x180D), // Heart Rate Service
-        BLE_UUID16_INIT(0x180F), // Battery Service
+        // BLE_UUID16_INIT(0x180F), // Battery Service
         BLE_UUID16_INIT(0x181C), // Conductivity Service
-        BLE_UUID16_INIT(0x180A), // Device Information Service
-        BLE_UUID16_INIT(0x180C), // Custom Command Control Service
+        // BLE_UUID16_INIT(0x180A), // Device Information Service
+        // BLE_UUID16_INIT(0x180C), // Custom Command Control Service
         BLE_UUID16_INIT(0x180E), // Button Service
     };
     fields.uuids16 = (ble_uuid16_t *)svc_uuids;
@@ -363,12 +380,19 @@ void ble_app_advertise(void)
     ble_gap_adv_set_fields(&fields);
 
     // Start advertising
+    ESP_LOGI(TAG, "Starting BLE advertisement...");
+
     struct ble_gap_adv_params adv_params;
     memset(&adv_params, 0, sizeof(adv_params));
     adv_params.conn_mode = BLE_GAP_CONN_MODE_UND;
     adv_params.disc_mode = BLE_GAP_DISC_MODE_GEN;
 
-    ble_gap_adv_start(ble_addr_type, NULL, BLE_HS_FOREVER, &adv_params, ble_gap_event, NULL);
+    int adv_rc = ble_gap_adv_start(ble_addr_type, NULL, BLE_HS_FOREVER, &adv_params, ble_gap_event, NULL);
+    if (adv_rc != 0) {
+        ESP_LOGE(TAG, "Failed to start advertising: %d", adv_rc);
+    } else {
+        ESP_LOGI(TAG, "Advertising started successfully");
+    }
 }
 
 
@@ -413,10 +437,11 @@ void ble_app_on_sync(void) {
     }
 
     // button handle
-    ESP_LOGI(TAG, "Locating Button Characteristic UUID: 0x2A3F in Service UUID: 0x180E");
+    ESP_LOGI(TAG, "Locating Button Characteristic UUID: random in Service UUID: 0x180E");
     rc = ble_gatts_find_chr(
         BLE_UUID16_DECLARE(0x180E),
-        BLE_UUID16_DECLARE(0x2A3F),
+        // (const ble_uuid_t *)&button_char_uuid, // correct 128-bit characteristic UUID
+        BLE_UUID16_DECLARE(0x2A3F), // button
         &def_handle,
         &val_handle
     );
