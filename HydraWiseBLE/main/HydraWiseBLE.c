@@ -21,7 +21,8 @@ uint8_t ble_addr_type;
 static uint16_t conn_handle_global = 0; // Global connection handle to track the current connection
 static uint16_t hrm_handle = 0; // Handle for Heart Rate Measurement characteristic
 static uint16_t conductivity_handle = 0; // Handle for Conductivity characteristic
-volatile bool is_running = true; // Flag to control task behavior
+uint8_t button_state = 0; // 0 = STOPPED, 1 = STARTED
+static uint16_t button_char_handle = 0; // Handle for button characteristic
 void ble_app_advertise(void);
 
 /*
@@ -54,6 +55,12 @@ ESP 32 FUNCTIONALITIES
     - Handle connection and disconnection events
     - Retry advertising on disconnection
     - Store connection handle for further communication
+6. Button State:
+    - Button state is used to control the device's operation (START/STOP)
+    - The button state is used to control the data collection process
+7. FreeRTOS:
+    - Use FreeRTOS for task management
+    - Create tasks for heart rate and conductivity notifications
 ---------------------------------------------
 */
 // Write data to ESP32 defined as server
@@ -70,23 +77,27 @@ static int device_write(uint16_t conn_handle, uint16_t attr_handle,
 
     // You can add parsing logic here
     if (strcmp(buf, "START") == 0) {
-        is_running = true;
+        button_state = 1;
         printf("Starting...\n");
-        ESP_LOGI(TAG, "START command received. Enabling data collection.");
+        ESP_LOGI(TAG, "START command received. Notifying button state");
     } else if (strcmp(buf, "STOP") == 0) {
-        is_running = false;
+        button_state = 0;
         printf("Stopping...\n");
-        ESP_LOGI(TAG, "STOP command received. Disabling data collection.");
-
+        ESP_LOGI(TAG, "STOP command received. Notifying button state.");
+    }
+    
+    // notify client about button state change
+    if (conn_handle_global != 0 && button_char_handle != 0) {
+        struct os_mbuf *om = ble_hs_mbuf_from_flat(&button_state, sizeof(button_state));
+        int rc = ble_gattc_notify_custom(conn_handle_global, button_char_handle, om);
+        if (rc != 0) {
+            ESP_LOGE(TAG, "Failed to send button state notification: %d", rc);
+        } else {
+            ESP_LOGI(TAG, "Button state notification sent: %d", button_state);
+        }
+    }
     return 0;
 }
-
-// Read data from ESP32 defined as a server
-// static int device_read(uint16_t conn_handle, uint16_t attr_handle, struct ble_gatt_access_ctxt *ctxt, void *arg) {
-//     printf("Read data from the client\n");
-//     os_mbuf_append(ctxt->om, "Hello from ESP32", 17);
-//     return 0;
-// }
 
 // extravagant read data from ESP32 defined as a server
 static int device_read(uint16_t conn_handle, uint16_t attr_handle, struct ble_gatt_access_ctxt *ctxt, void *arg) {
@@ -99,6 +110,10 @@ static int device_read(uint16_t conn_handle, uint16_t attr_handle, struct ble_ga
         ESP_LOGI(TAG, "💧 Client is reading Conductivity characteristic");
         float dummy_conductivity = 1.23f;
         os_mbuf_append(ctxt->om, &dummy_conductivity, sizeof(dummy_conductivity));
+    }
+    else if (attr_handle == button_char_handle) {
+        ESP_LOGI(TAG, "📥 Client is reading Button state characteristic");
+        os_mbuf_append(ctxt->om, &button_state, sizeof(button_state));
     }
     else {
         ESP_LOGW(TAG, "⚠️ Unknown characteristic read (handle: %d)", attr_handle);
@@ -150,10 +165,29 @@ static const struct ble_gatt_chr_def battery_level_chr[] = {
     }
 };
 
+// button characteristic uuid
+static const ble_uuid128_t button_char_uuid =
+    BLE_UUID128_INIT(0xaa, 0xbb, 0xcc, 0xdd,
+        0xee, 0xff, 0x00, 0x11,
+        0x22, 0x33, 0x44, 0x55,
+        0x66, 0x77, 0x88, 0x99);
+
+// button characteristic
+static const struct ble_gatt_chr_def button_chr[] = {
+    {
+        .uuid = (const ble_uuid_t *)&button_char_uuid,  // Cast to correct type
+        .access_cb = device_read,
+        .flags = BLE_GATT_CHR_F_READ | BLE_GATT_CHR_F_NOTIFY,
+    },
+    {
+        0, // NULL TERMINATOR
+    }
+};
+
 // heart rate notification task with FreeRTOS
 void notify_heart_rate_task(void *param) {
     while(1) {
-        if (conn_handle_global != 0 && is_running) // Check if connected and running
+        if (conn_handle_global != 0 && button_state) // Check if connected and running
         {
             uint8_t hr_data[2] = { 0x00, 75 }; // Heart rate measurement (75 bpm)   
 
@@ -177,7 +211,7 @@ void notify_heart_rate_task(void *param) {
 // conductivity notification task with FreeRTOS
 void notify_conductivity_task(void *param) {
     while(1) {
-        if (conn_handle_global != 0 && is_running) // Check if connected and running
+        if (conn_handle_global != 0 && button_state) // Check if connected and running
         {
             uint8_t conductivity_data[2] = { 0x00, 50 }; // Conductivity measurement (50 mS/cm)   
 
@@ -201,6 +235,13 @@ void notify_conductivity_task(void *param) {
 // Array of pointers to other service definitions
 // UUID - Universal Unique Identifier
 static const struct ble_gatt_svc_def gatt_svcs[] = {
+    // button characteristic service for on/off in collecting data
+    {
+        .type = BLE_GATT_SVC_TYPE_PRIMARY,
+        .uuid = BLE_UUID16_DECLARE(0x180E), // Use alert notification service (repurposed to act as button alert state)
+        .characteristics = button_chr,  // Characteristic: random uuid
+    },
+
     // Battery Service (0x180F)
     {
         .type = BLE_GATT_SVC_TYPE_PRIMARY,
@@ -256,7 +297,6 @@ static const struct ble_gatt_svc_def gatt_svcs[] = {
             { 0 } // Terminator
         }
     },
-
     { 0 } // End of services
 };
 
@@ -291,27 +331,6 @@ static int ble_gap_event(struct ble_gap_event *event, void *arg) {
     return 0;          
 }
 
-// Define BLE connection
-// void ble_app_advertise(void)
-// {
-//     // GAP - Generic Access Profile, device name definition
-//     struct ble_hs_adv_fields fields;
-//     const char *device_name;
-//     memset(&fields, 0, sizeof(fields));
-//     device_name = ble_svc_gap_device_name();
-//     fields.name = (uint8_t *)device_name;
-//     fields.name_len = strlen(device_name);
-//     fields.name_is_complete = 1;
-//     ble_gap_adv_set_fields(&fields);
-
-//     // GAP - Generic Access Profile, device connectivity definition
-//     struct ble_gap_adv_params adv_params;
-//     memset(&adv_params, 0, sizeof(adv_params));
-//     adv_params.conn_mode = BLE_GAP_CONN_MODE_UND;
-//     adv_params.disc_mode = BLE_GAP_DISC_MODE_GEN;
-//     ble_gap_adv_start(ble_addr_type, NULL, BLE_HS_FOREVER, &adv_params, ble_gap_event, NULL);
-// }
-
 // for apple
 void ble_app_advertise(void)
 {
@@ -327,12 +346,18 @@ void ble_app_advertise(void)
     fields.name_len = strlen(device_name);
     fields.name_is_complete = 1;
 
-    // Include the Heart Rate Service UUID in the advertisement
-    const uint16_t svc_uuid = 0x180D;
-    fields.uuids16 = (ble_uuid16_t[]) {
-        BLE_UUID16_INIT(svc_uuid)
+    // Include the Heart Rate Service UUID and battery in the advertisement
+    // const uint16_t svc_uuid = 0x180D;
+    static const ble_uuid16_t svc_uuids[] = {
+        BLE_UUID16_INIT(0x180D), // Heart Rate Service
+        BLE_UUID16_INIT(0x180F), // Battery Service
+        BLE_UUID16_INIT(0x181C), // Conductivity Service
+        BLE_UUID16_INIT(0x180A), // Device Information Service
+        BLE_UUID16_INIT(0x180C), // Custom Command Control Service
+        BLE_UUID16_INIT(0x180E), // Button Service
     };
-    fields.num_uuids16 = 1;
+    fields.uuids16 = (ble_uuid16_t *)svc_uuids;
+    fields.num_uuids16 = sizeof(svc_uuids) / sizeof(svc_uuids[0]);
     fields.uuids16_is_complete = 1;
 
     ble_gap_adv_set_fields(&fields);
@@ -385,6 +410,22 @@ void ble_app_on_sync(void) {
     } else {
         conductivity_handle = val_handle;
         ESP_LOGI(TAG, "Conductivity characteristic handle: %d", conductivity_handle);
+    }
+
+    // button handle
+    ESP_LOGI(TAG, "Locating Button Characteristic UUID: 0x2A3F in Service UUID: 0x180E");
+    rc = ble_gatts_find_chr(
+        BLE_UUID16_DECLARE(0x180E),
+        BLE_UUID16_DECLARE(0x2A3F),
+        &def_handle,
+        &val_handle
+    );
+
+    if (rc != 0) {
+        ESP_LOGE(TAG, "Failed to find Button characteristic: %d", rc);
+    } else {
+        button_char_handle = val_handle;
+        ESP_LOGI(TAG, "Button characteristic handle: %d", button_char_handle);
     }
 }
 
