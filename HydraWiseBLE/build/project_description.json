@@ -1,7 +1,7 @@
 {
     "version":            "1.2",
     "project_name":       "HydraWiseBLE",
-    "project_version":    "87544e4-dirty",
+    "project_version":    "fef1a07-dirty",
     "project_path":       "/Users/areej/HydraWiseBLE/HydraWiseBLE",
     "idf_path":           "/Users/areej/esp/esp-idf",
     "build_dir":          "/Users/areej/HydraWiseBLE/HydraWiseBLE/build",

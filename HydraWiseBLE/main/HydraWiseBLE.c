@@ -1,3 +1,4 @@
+#include "HydraWiseBLE.h"
 #include <stdio.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -87,11 +88,18 @@ static int device_write(uint16_t conn_handle, uint16_t attr_handle,
         button_state = 1;
         printf("Starting...\n");
         ESP_LOGI(TAG, "START command received. Notifying button state");
+    
+        // Send dummy heart rate
+        uint8_t hr_data[2] = { 0x00, 75 }; // Heart Rate in bpm
+        struct os_mbuf *hr_om = ble_hs_mbuf_from_flat(hr_data, sizeof(hr_data));
         ble_gattc_notify_custom(conn_handle_global, hrm_handle, hr_om);
+        ESP_LOGI(TAG, "Heart rate notification sent: %d bpm", hr_data[1]);
+    
         // Send dummy hydration
         float dummy_hydration = 1.23f;
         struct os_mbuf *hydration_om = ble_hs_mbuf_from_flat(&dummy_hydration, sizeof(dummy_hydration));
         ble_gattc_notify_custom(conn_handle_global, conductivity_handle, hydration_om);
+        ESP_LOGI(TAG, "Heart rate notification sent: %d bpm", hr_data[1]);
     } else if (strcmp(buf, "STOP") == 0) {
         button_state = 0;
         printf("Stopping...\n");
