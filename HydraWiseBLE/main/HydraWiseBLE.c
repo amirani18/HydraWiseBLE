@@ -89,12 +89,6 @@ int device_write(uint16_t conn_handle, uint16_t attr_handle,
         printf("Starting...\n");
         ESP_LOGI(TAG, "START command received. Notifying button state");
     
-        // Send dummy heart rate
-        uint8_t hr_data[2] = { 0x00, 75 }; // Heart Rate in bpm
-        struct os_mbuf *hr_om = ble_hs_mbuf_from_flat(hr_data, sizeof(hr_data));
-        ble_gattc_notify_custom(conn_handle_global, hrm_handle, hr_om);
-        ESP_LOGI(TAG, "Heart rate notification sent: %d bpm", hr_data[1]);
-    
         // Send dummy hydration
         float dummy_hydration = 1.23f;
         struct os_mbuf *hydration_om = ble_hs_mbuf_from_flat(&dummy_hydration, sizeof(dummy_hydration));
@@ -159,16 +153,17 @@ const struct ble_gatt_chr_def heart_rate_chr[] = {
 };
 
 // conductivity characteristic
-const ble_uuid128_t conductivity_uuid =
-    BLE_UUID128_INIT(0x50, 0x97, 0x5b, 0xaa,
-        0x82, 0xc9,
-        0xe6, 0x4c,
-        0x90, 0xc7,
-        0x54, 0xc0, 0xc8, 0xc6, 0xae, 0x84);
+// const ble_uuid128_t conductivity_uuid =
+//     BLE_UUID128_INIT(0x50, 0x97, 0x5b, 0xaa,
+//         0x82, 0xc9,
+//         0xe6, 0x4c,
+//         0x90, 0xc7,
+//         0x54, 0xc0, 0xc8, 0xc6, 0xae, 0x84);
 
 struct ble_gatt_chr_def conductivity_chr[] = {
     {
-        .uuid = (const ble_uuid_t *)&conductivity_uuid,  // Cast to correct type
+        // .uuid = (const ble_uuid_t *)&conductivity_uuid,  // Cast to correct type
+        .uuid = BLE_UUID16_DECLARE(0x272B), // Hydration MEASUREMENT
         .access_cb = device_read,
         .flags = BLE_GATT_CHR_F_READ | BLE_GATT_CHR_F_NOTIFY,
     },
@@ -430,7 +425,8 @@ void ble_app_on_sync(void) {
 
     rc = ble_gatts_find_chr(
         BLE_UUID16_DECLARE(0x181C),
-        (const ble_uuid_t *)&conductivity_uuid,
+        // (const ble_uuid_t *)&conductivity_uuid,
+        BLE_UUID16_DECLARE(0x272B),
         &def_handle,
         &val_handle
     );
