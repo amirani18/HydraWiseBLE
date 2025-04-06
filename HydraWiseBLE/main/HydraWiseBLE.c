@@ -19,11 +19,11 @@
 char *TAG = "HydraWise-BLE-Server";
 #define CONFIG_IDF_TARGET_ESP32 1
 uint8_t ble_addr_type;
-static uint16_t conn_handle_global = 0; // Global connection handle to track the current connection
-static uint16_t hrm_handle = 0; // Handle for Heart Rate Measurement characteristic
-static uint16_t conductivity_handle = 0; // Handle for Conductivity characteristic
+uint16_t conn_handle_global = 0; // Global connection handle to track the current connection
+uint16_t hrm_handle = 0; // Handle for Heart Rate Measurement characteristic
+uint16_t conductivity_handle = 0; // Handle for Conductivity characteristic
 uint8_t button_state = 0; // 0 = STOPPED, 1 = STARTED
-static uint16_t button_char_handle = 0; // Handle for button characteristic
+uint16_t button_char_handle = 0; // Handle for button characteristic
 void ble_app_advertise(void);
 
 /*
@@ -65,7 +65,7 @@ ESP 32 FUNCTIONALITIES
 ---------------------------------------------
 */
 // Write data to ESP32 defined as server
-static int device_write(uint16_t conn_handle, uint16_t attr_handle,
+int device_write(uint16_t conn_handle, uint16_t attr_handle,
     struct ble_gatt_access_ctxt *ctxt, void *arg) {
     printf("Received WRITE (handle: %d, conn: %d)\n", attr_handle, conn_handle);
 
@@ -121,7 +121,7 @@ static int device_write(uint16_t conn_handle, uint16_t attr_handle,
 }
 
 // extravagant read data from ESP32 defined as a server
-static int device_read(uint16_t conn_handle, uint16_t attr_handle, struct ble_gatt_access_ctxt *ctxt, void *arg) {
+int device_read(uint16_t conn_handle, uint16_t attr_handle, struct ble_gatt_access_ctxt *ctxt, void *arg) {
     if (attr_handle == hrm_handle) {
         ESP_LOGI(TAG, "💓 Client is reading Heart Rate characteristic");
         float dummy_hr = 75.0f;
@@ -145,7 +145,7 @@ static int device_read(uint16_t conn_handle, uint16_t attr_handle, struct ble_ga
 }
 
 // heart rate characteristic
-static const struct ble_gatt_chr_def heart_rate_chr[] = {
+const struct ble_gatt_chr_def heart_rate_chr[] = {
     {
         .uuid = BLE_UUID16_DECLARE(0x2A37), // HEART RATE MEASUREMENT
         .access_cb = device_read,
@@ -157,14 +157,14 @@ static const struct ble_gatt_chr_def heart_rate_chr[] = {
 };
 
 // conductivity characteristic
-static const ble_uuid128_t conductivity_uuid =
+const ble_uuid128_t conductivity_uuid =
     BLE_UUID128_INIT(0x50, 0x97, 0x5b, 0xaa,
         0x82, 0xc9,
         0xe6, 0x4c,
         0x90, 0xc7,
         0x54, 0xc0, 0xc8, 0xc6, 0xae, 0x84);
 
-static struct ble_gatt_chr_def conductivity_chr[] = {
+struct ble_gatt_chr_def conductivity_chr[] = {
     {
         .uuid = (const ble_uuid_t *)&conductivity_uuid,  // Cast to correct type
         .access_cb = device_read,
@@ -176,7 +176,7 @@ static struct ble_gatt_chr_def conductivity_chr[] = {
 };
 
 // battery level characteristic
-static const struct ble_gatt_chr_def battery_level_chr[] = {
+const struct ble_gatt_chr_def battery_level_chr[] = {
     {
         .uuid = BLE_UUID16_DECLARE(0x2A19), // BATTERY LEVEL
         .access_cb = device_read,
@@ -196,7 +196,7 @@ static const struct ble_gatt_chr_def battery_level_chr[] = {
 //         0x9e, 0x3d, 0x3f, 0xdd, 0x42, 0x5b);
 
 // button characteristic
-static const struct ble_gatt_chr_def button_chr[] = {
+const struct ble_gatt_chr_def button_chr[] = {
     {
         // .uuid = (const ble_uuid_t *)&button_char_uuid,  // Cast to correct type
         .uuid = BLE_UUID16_DECLARE(0x2A3F), // button
@@ -259,7 +259,7 @@ void notify_conductivity_task(void *param) {
 
 // Array of pointers to other service definitions
 // UUID - Universal Unique Identifier
-static const struct ble_gatt_svc_def gatt_svcs[] = {
+const struct ble_gatt_svc_def gatt_svcs[] = {
     // button characteristic service for on/off in collecting data
     {
         .type = BLE_GATT_SVC_TYPE_PRIMARY,
@@ -327,7 +327,7 @@ static const struct ble_gatt_svc_def gatt_svcs[] = {
 
 
 // BLE event handling
-static int ble_gap_event(struct ble_gap_event *event, void *arg) {
+int ble_gap_event(struct ble_gap_event *event, void *arg) {
     switch (event -> type)
     {
         // Advertise if connected
