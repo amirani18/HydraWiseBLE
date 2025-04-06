@@ -99,7 +99,7 @@ int device_write(uint16_t conn_handle, uint16_t attr_handle,
         float dummy_hydration = 1.23f;
         struct os_mbuf *hydration_om = ble_hs_mbuf_from_flat(&dummy_hydration, sizeof(dummy_hydration));
         ble_gattc_notify_custom(conn_handle_global, conductivity_handle, hydration_om);
-        ESP_LOGI(TAG, "Heart rate notification sent: %d bpm", hr_data[1]);
+        ESP_LOGI(TAG, "Hydration notification sent: %f hydration", dummy_hydration);
     } else if (strcmp(buf, "STOP") == 0) {
         button_state = 0;
         printf("Stopping...\n");
@@ -135,6 +135,8 @@ int device_read(uint16_t conn_handle, uint16_t attr_handle, struct ble_gatt_acce
     else if (attr_handle == button_char_handle) {
         ESP_LOGI(TAG, "📥 Client is reading Button state characteristic");
         os_mbuf_append(ctxt->om, &button_state, sizeof(button_state));
+        // tell me what the button state is
+        ESP_LOGI(TAG, "Button state: %d", button_state);
     }
     else {
         ESP_LOGW(TAG, "⚠️ Unknown characteristic read (handle: %d)", attr_handle);
@@ -200,7 +202,7 @@ const struct ble_gatt_chr_def button_chr[] = {
     {
         // .uuid = (const ble_uuid_t *)&button_char_uuid,  // Cast to correct type
         .uuid = BLE_UUID16_DECLARE(0x2A3F), // button
-        .access_cb = device_read,
+        .access_cb = device_write,
         .flags = BLE_GATT_CHR_F_READ | BLE_GATT_CHR_F_NOTIFY | BLE_GATT_CHR_F_WRITE,
     },
     {
@@ -211,7 +213,7 @@ const struct ble_gatt_chr_def button_chr[] = {
 // heart rate notification task with FreeRTOS
 void notify_heart_rate_task(void *param) {
     while(1) {
-        if (conn_handle_global != 0 && button_state) // Check if connected and running
+        if (conn_handle_global != 0) // Check if connected and running
         {
             ESP_LOGI(TAG, "📡 Sending heart rate notification because button_state is %d", button_state);
             uint8_t hr_data[2] = { 0x00, 75 }; // Heart rate measurement (75 bpm)   
@@ -235,25 +237,21 @@ void notify_heart_rate_task(void *param) {
 
 // conductivity notification task with FreeRTOS
 void notify_conductivity_task(void *param) {
-    while(1) {
-        if (conn_handle_global != 0 && button_state) // Check if connected and running
-        {
-            uint8_t conductivity_data[2] = { 0x00, 50 }; // Conductivity measurement (50 mS/cm)   
-
-            struct os_mbuf *om = ble_hs_mbuf_from_flat(conductivity_data, sizeof(conductivity_data)); // Allocate a packet header
-            int rc = ble_gattc_notify_custom(conn_handle_global, // Connection handle
-                conductivity_handle, // Conductivity UUID
-                om); // The data to send
+    while (1) {
+        if (conn_handle_global != 0 && button_state == 1) {
+            float dummy_hydration = 1.23f;
+            struct os_mbuf *hydration_om = ble_hs_mbuf_from_flat(&dummy_hydration, sizeof(dummy_hydration));
+            int rc = ble_gattc_notify_custom(conn_handle_global, conductivity_handle, hydration_om);
             if (rc != 0) {
-                printf("failed to send conductivity notification: %d\n", rc);
-                ESP_LOGE(TAG, "Failed to send conductivity notification: %d", rc);
+                ESP_LOGE(TAG, "❌ Failed to send hydration notification: %d", rc);
             } else {
-                printf("conductivity notification sent: %d mS/cm\n", conductivity_data[1]);
-                ESP_LOGI(TAG, "Conductivity notification sent: %d mS/cm", conductivity_data[1]);
+                ESP_LOGI(TAG, "💧 Hydration notification sent: %.2f", dummy_hydration);
             }
-            // vTaskDelay(pdMS_TO_TICKS(3000)); // Notify every 3 seconds
+        } else {
+            ESP_LOGI(TAG, "⏸ Hydration task paused - either not connected or button not pressed.");
         }
-        vTaskDelay(pdMS_TO_TICKS(5000)); // Yield every 5 seconds
+
+        vTaskDelay(pdMS_TO_TICKS(5000)); // Check every 5 seconds
     }
 }
 
