@@ -152,17 +152,8 @@ const struct ble_gatt_chr_def heart_rate_chr[] = {
     }
 };
 
-// conductivity characteristic
-// const ble_uuid128_t conductivity_uuid =
-//     BLE_UUID128_INIT(0x50, 0x97, 0x5b, 0xaa,
-//         0x82, 0xc9,
-//         0xe6, 0x4c,
-//         0x90, 0xc7,
-//         0x54, 0xc0, 0xc8, 0xc6, 0xae, 0x84);
-
 struct ble_gatt_chr_def conductivity_chr[] = {
     {
-        // .uuid = (const ble_uuid_t *)&conductivity_uuid,  // Cast to correct type
         .uuid = BLE_UUID16_DECLARE(0x272B), // Hydration MEASUREMENT
         .access_cb = device_read,
         .flags = BLE_GATT_CHR_F_READ | BLE_GATT_CHR_F_NOTIFY,
@@ -184,18 +175,9 @@ const struct ble_gatt_chr_def battery_level_chr[] = {
     }
 };
 
-// button characteristic uuid
-// static const ble_uuid128_t button_char_uuid =
-//     BLE_UUID128_INIT(0x0d, 0x9d, 0xbf, 0x48,
-//         0x5a, 0x2a,
-//         0x2d, 0x48,
-//         0x8d, 0x05,
-//         0x9e, 0x3d, 0x3f, 0xdd, 0x42, 0x5b);
-
 // button characteristic
 const struct ble_gatt_chr_def button_chr[] = {
     {
-        // .uuid = (const ble_uuid_t *)&button_char_uuid,  // Cast to correct type
         .uuid = BLE_UUID16_DECLARE(0x2A3F), // button
         .access_cb = device_write,
         .flags = BLE_GATT_CHR_F_READ | BLE_GATT_CHR_F_NOTIFY | BLE_GATT_CHR_F_WRITE,
@@ -407,8 +389,8 @@ void ble_app_on_sync(void) {
     uint16_t val_handle;
 
     int rc = ble_gatts_find_chr(
-        BLE_UUID16_DECLARE(0x180D),
-        BLE_UUID16_DECLARE(0x2A37),
+        BLE_UUID16_DECLARE(0x180D),     // heart rate service
+        BLE_UUID16_DECLARE(0x2A37),     // heart rate characteristic
         &def_handle,
         &val_handle
     );
@@ -424,9 +406,8 @@ void ble_app_on_sync(void) {
     ESP_LOGI(TAG, "Attempting to locate Conductivity Characteristic UUID: 0xAA5B9750C9824CE690C754C0C8C6AE84 in Service UUID: 0x181C");
 
     rc = ble_gatts_find_chr(
-        BLE_UUID16_DECLARE(0x181C),
-        // (const ble_uuid_t *)&conductivity_uuid,
-        BLE_UUID16_DECLARE(0x272B),
+        BLE_UUID16_DECLARE(0x181C),     // hydration service
+        BLE_UUID16_DECLARE(0x272B),     // hydration characteristic
         &def_handle,
         &val_handle
     );
@@ -442,7 +423,6 @@ void ble_app_on_sync(void) {
     ESP_LOGI(TAG, "Locating Button Characteristic UUID: random in Service UUID: 0x180E");
     rc = ble_gatts_find_chr(
         BLE_UUID16_DECLARE(0x180E),
-        // (const ble_uuid_t *)&button_char_uuid, // correct 128-bit characteristic UUID
         BLE_UUID16_DECLARE(0x2A3F), // button
         &def_handle,
         &val_handle
