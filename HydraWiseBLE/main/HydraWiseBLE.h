@@ -18,7 +18,7 @@ extern uint8_t button_state;
 extern uint16_t hrm_handle;
 extern uint16_t conductivity_handle;
 extern uint16_t button_char_handle;
-extern uint16_t conn_handle_global;
+extern volatile uint16_t conn_handle_global;
 
 // ---------------- Function Declarations ----------------
 

@@ -19,7 +19,7 @@
 char *TAG = "HydraWise-BLE-Server";
 #define CONFIG_IDF_TARGET_ESP32 1
 uint8_t ble_addr_type;
-uint16_t conn_handle_global = 0; // Global connection handle to track the current connection
+volatile uint16_t conn_handle_global = 0; // Global connection handle to track the current connection
 uint16_t hrm_handle = 0; // Handle for Heart Rate Measurement characteristic
 uint16_t conductivity_handle = 0; // Handle for Conductivity characteristic
 uint8_t button_state = 0; // 0 = STOPPED, 1 = STARTED
@@ -101,7 +101,7 @@ int device_write(uint16_t conn_handle, uint16_t attr_handle,
     }
     
     // notify client about button state change
-    if (conn_handle_global != 0 && button_char_handle != 0) {
+    if (ble_gap_conn_find(conn_handle_global, NULL) == 0 && button_char_handle != 0) {
         ESP_LOGI(TAG, "🔔 Notifying client with button_state = %d", button_state);
         struct os_mbuf *om = ble_hs_mbuf_from_flat(&button_state, sizeof(button_state));
         int rc = ble_gattc_notify_custom(conn_handle_global, button_char_handle, om);
@@ -118,7 +118,7 @@ int device_write(uint16_t conn_handle, uint16_t attr_handle,
 int device_read(uint16_t conn_handle, uint16_t attr_handle, struct ble_gatt_access_ctxt *ctxt, void *arg) {
     if (attr_handle == hrm_handle) {
         ESP_LOGI(TAG, "💓 Client is reading Heart Rate characteristic");
-        float dummy_hr = 75.0f;
+        int dummy_hr = 75; // send as a 4-byte integer
         os_mbuf_append(ctxt->om, &dummy_hr, sizeof(dummy_hr));
     }
     else if (attr_handle == conductivity_handle) {
@@ -189,33 +189,29 @@ const struct ble_gatt_chr_def button_chr[] = {
 
 // heart rate notification task with FreeRTOS
 void notify_heart_rate_task(void *param) {
-    while(1) {
-        if (conn_handle_global != 0) // Check if connected and running
-        {
-            ESP_LOGI(TAG, "📡 Sending heart rate notification because button_state is %d", button_state);
-            uint8_t hr_data[2] = { 0x00, 75 }; // Heart rate measurement (75 bpm)   
-
-            struct os_mbuf *om = ble_hs_mbuf_from_flat(hr_data, sizeof(hr_data)); // Allocate a packet header
-            int rc = ble_gattc_notify_custom(conn_handle_global, // Connection handle
-                hrm_handle, // Heart Rate Measurement UUID
-                om); // The data to send
+    while (1) {
+        if (ble_gap_conn_find(conn_handle_global, NULL) == 0) {
+            int dummy_hr = 75; // send as a 4-byte integer
+            struct os_mbuf *hr_om = ble_hs_mbuf_from_flat(&dummy_hr, sizeof(dummy_hr));
+            int rc = ble_gattc_notify_custom(conn_handle_global, hrm_handle, hr_om);
             if (rc != 0) {
-                printf("failed to send heart rate notification: %d\n", rc);
-                ESP_LOGE(TAG, "Failed to send heart rate notification: %d", rc);
+                ESP_LOGE(TAG, "❌ Failed to send heart rate notification: %d", rc);
             } else {
-                printf("heart rate notification sent: %d bpm\n", hr_data[1]);
-                ESP_LOGI(TAG, "Heart rate notification sent: %d bpm", hr_data[1]);
+                ESP_LOGI(TAG, "💓 Heart rate notification sent: %d BPM", dummy_hr);
             }
-            // vTaskDelay(pdMS_TO_TICKS(3000)); // Notify every 3 seconds
+        } else {
+            ESP_LOGI(TAG, "⏸ Heart rate task paused - not connected.");
         }
-        vTaskDelay(pdMS_TO_TICKS(3000));
+
+        vTaskDelay(pdMS_TO_TICKS(3000)); // Every 3 seconds
     }
 }
+
 
 // conductivity notification task with FreeRTOS
 void notify_conductivity_task(void *param) {
     while (1) {
-        if (conn_handle_global != 0 && button_state == 1) {
+        if (ble_gap_conn_find(conn_handle_global, NULL) == 0 && button_state == 1) {
             float dummy_hydration = 1.23f;
             struct os_mbuf *hydration_om = ble_hs_mbuf_from_flat(&dummy_hydration, sizeof(dummy_hydration));
             int rc = ble_gattc_notify_custom(conn_handle_global, conductivity_handle, hydration_om);
@@ -307,14 +303,29 @@ int ble_gap_event(struct ble_gap_event *event, void *arg) {
     {
         // Advertise if connected
         case BLE_GAP_EVENT_CONNECT:
-            if (event -> connect.status == 0) {
-                ESP_LOGI("GAP", "Device connected");
-                conn_handle_global = event -> connect.conn_handle; // Store the connection handle globally
-            }
-            else {
-                ble_app_advertise(); // Retry advertising if connection failed
+            if (event->connect.status == 0) {
+                ESP_LOGI("GAP", "✅ Device connected successfully");
+                conn_handle_global = 1; // Set to 1 to indicate connected state
+
+                // DOUBLE CHECK VALUES
+                ESP_LOGI("GAP", "event->connect.conn_handle = %d", event->connect.conn_handle);
+                conn_handle_global = event->connect.conn_handle;
+                ESP_LOGI("GAP", "✅ conn_handle_global set to %d", conn_handle_global);
+
+                // Start tasks once
+                static bool tasks_started = false;
+                if (!tasks_started) {
+                    tasks_started = true;
+                    xTaskCreate(notify_heart_rate_task, "hr_notify_task", 2048, NULL, 5, NULL);
+                    xTaskCreate(notify_conductivity_task, "hydration_notify_task", 2048, NULL, 5, NULL);
+                    ESP_LOGI("GAP", "✅ Notification tasks started");
+                }
+            } else {
+                ESP_LOGE("GAP", "❌ Connection failed with status: %d", event->connect.status);
+                ble_app_advertise(); // restart advertising
             }
             break;
+
         // advertise again after completion of event
         case BLE_GAP_EVENT_DISCONNECT:
             ESP_LOGI("GAP", "BLE GAP EVENT DISCONNECT");
@@ -452,8 +463,8 @@ void app_main() {
     ble_gatts_add_svcs(gatt_svcs);
     ble_hs_cfg.sync_cb = ble_app_on_sync;
     nimble_port_freertos_init(host_task);
-    xTaskCreate(notify_heart_rate_task, "hr_notify_task", 2048, NULL, 5, NULL); // Create FreeRTOS task for heart rate notifications
-    xTaskCreate(notify_conductivity_task, "conductivity_notify_task", 2048, NULL, 5, NULL); // Create FreeRTOS task for conductivity notifications
+    // xTaskCreate(notify_heart_rate_task, "hr_notify_task", 2048, NULL, 5, NULL); // Create FreeRTOS task for heart rate notifications
+    // xTaskCreate(notify_conductivity_task, "conductivity_notify_task", 2048, NULL, 5, NULL); // Create FreeRTOS task for conductivity notifications
     // Note: The above task will send heart rate notifications every 3 seconds
     // This will allow the ESP32 to send heart rate notifications to connected clients.
     // The application will now start advertising and waiting for connections.

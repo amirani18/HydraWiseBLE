@@ -1,0 +1,101 @@
+Command: /Users/areej/.espressif/python_env/idf5.5_py3.13_env/bin/python /Users/areej/esp/esp-idf/tools/idf_monitor.py -p /dev/cu.usbserial-0001 -b 115200 --toolchain-prefix xtensa-esp32-elf- --target esp32 --revision 0 /Users/areej/HydraWiseBLE/HydraWiseBLE/build/HydraWiseBLE.elf /Users/areej/HydraWiseBLE/HydraWiseBLE/build/bootloader/bootloader.elf -m '/Users/areej/.espressif/python_env/idf5.5_py3.13_env/bin/python' '/Users/areej/esp/esp-idf/tools/idf.py'
+[0;32mI (13) boot: ESP-IDF v5.5-dev-2657-g23c73cdc37 2nd stage bootloader[0m
+[0;32mI (13) boot: compile time Apr  2 2025 14:12:15[0m
+[0;32mI (13) boot: Multicore bootloader[0m
+[0;32mI (15) boot: chip revision: v3.0[0m
+[0;32mI (18) boot.esp32: SPI Speed      : 40MHz[0m
+[0;32mI (22) boot.esp32: SPI Mode       : DIO[0m
+[0;32mI (25) boot.esp32: SPI Flash Size : 2MB[0m
+[0;32mI (29) boot: Enabling RNG early entropy source...[0m
+[0;32mI (33) boot: Partition Table:[0m
+[0;32mI (36) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (42) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (49) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (55) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (62) boot: End of partition table[0m
+[0;32mI (65) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=124a0h ( 74912) map[0m
+[0;32mI (98) esp_image: segment 1: paddr=000224c8 vaddr=3ff80000 size=0001ch (    28) load[0m
+[0;32mI (99) esp_image: segment 2: paddr=000224ec vaddr=3ffbdb60 size=04db0h ( 19888) load[0m
+[0;32mI (109) esp_image: segment 3: paddr=000272a4 vaddr=40080000 size=08d74h ( 36212) load[0m
+[0;32mI (124) esp_image: segment 4: paddr=00030020 vaddr=400d0020 size=528c8h (338120) map[0m
+[0;32mI (240) esp_image: segment 5: paddr=000828f0 vaddr=40088d74 size=0eeech ( 61164) load[0m
+[0;32mI (275) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (275) boot: Disabling RNG early entropy source...[0m
+[0;32mI (286) cpu_start: Multicore app[0m
+[0;32mI (294) cpu_start: Pro cpu start user code[0m
+[0;32mI (294) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (294) app_init: Application information:[0m
+[0;32mI (294) app_init: Project name:     HydraWiseBLE[0m
+[0;32mI (299) app_init: App version:      8989251-dirty[0m
+[0;32mI (303) app_init: Compile time:     Apr  6 2025 14:50:12[0m
+[0;32mI (308) app_init: ELF file SHA256:  22c7dfe30...[0m
+[0;32mI (313) app_init: ESP-IDF:          v5.5-dev-2657-g23c73cdc37[0m
+[0;32mI (318) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (322) efuse_init: Max chip rev:     v3.99 [0m
+[0;32mI (326) efuse_init: Chip rev:         v3.0[0m
+[0;32mI (330) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (336) heap_init: At 3FFAFF10 len 000000F0 (0 KiB): DRAM[0m
+[0;32mI (341) heap_init: At 3FFB6388 len 00001C78 (7 KiB): DRAM[0m
+[0;32mI (346) heap_init: At 3FFB9A20 len 00004108 (16 KiB): DRAM[0m
+[0;32mI (351) heap_init: At 3FFC56F8 len 0001A908 (106 KiB): DRAM[0m
+[0;32mI (357) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM[0m
+[0;32mI (362) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM[0m
+[0;32mI (368) heap_init: At 40097C60 len 000083A0 (32 KiB): IRAM[0m
+[0;32mI (374) spi_flash: detected chip: generic[0m
+[0;32mI (376) spi_flash: flash io: dio[0m
+[0;33mW (379) spi_flash: Detected size(4096k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (393) coexist: coex firmware version: e727207[0m
+[0;32mI (397) main_task: Started on CPU0[0m
+[0;32mI (407) main_task: Calling app_main()[0m
+[0;32mI (417) BTDM_INIT: BT controller compile version [e250cf1][0m
+[0;32mI (417) BTDM_INIT: Bluetooth MAC: ec:62:60:1f:15:8a[0m
+[0;32mI (417) phy_init: phy_version 4860,6b7a6e5,Feb  6 2025,14:47:07[0m
+[0;32mI (717) main_task: Returned from app_main()[0m
+[0;32mI (757) NimBLE: Failed to restore IRKs from store; status=8[0m
+
+[0;32mI (767) HydraWise-BLE-Server: Starting BLE advertisement...[0m
+[0;32mI (767) NimBLE: GAP procedure initiated: advertise; [0m
+[0;32mI (767) NimBLE: disc_mode=2[0m
+[0;32mI (767) NimBLE:  adv_channel_map=0 own_addr_type=0 adv_filter_policy=0 adv_itvl_min=0 adv_itvl_max=0[0m
+[0;32mI (777) NimBLE: [0m
+
+[0;32mI (787) HydraWise-BLE-Server: Advertising started successfully[0m
+[0;32mI (787) HydraWise-BLE-Server: Attempting to locate Heart Rate Characteristic UUID: 0x2A37 in Service UUID: 0x180D[0m
+[0;32mI (797) HydraWise-BLE-Server: Heart Rate Measurement characteristic handle: 24[0m
+[0;32mI (797) HydraWise-BLE-Server: Attempting to locate Conductivity Characteristic UUID: 0xAA5B9750C9824CE690C754C0C8C6AE84 in Service UUID: 0x181C[0m
+[0;32mI (817) HydraWise-BLE-Server: Conductivity characteristic handle: 28[0m
+[0;32mI (817) HydraWise-BLE-Server: Locating Button Characteristic UUID: random in Service UUID: 0x180E[0m
+[0;32mI (827) HydraWise-BLE-Server: Button characteristic handle: 16[0m
+[0;32mI (25457) GAP: ✅ Device connected successfully[0m
+[0;32mI (25457) GAP: event->connect.conn_handle = 0[0m
+[0;32mI (25457) GAP: ✅ conn_handle_global set to 0[0m
+[0;32mI (25457) GAP: ✅ Notification tasks started[0m
+[0;32mI (25457) HydraWise-BLE-Server: ⏸ Heart rate task paused - not connected.[0m
+[0;32mI (25457) HydraWise-BLE-Server: ⏸ Hydration task paused - either not connected or button not pressed.[0m
+[0;32mI (28467) HydraWise-BLE-Server: ⏸ Heart rate task paused - not connected.[0m
+[0;32mI (30477) HydraWise-BLE-Server: ⏸ Hydration task paused - either not connected or button not pressed.[0m
+[0;32mI (31467) HydraWise-BLE-Server: ⏸ Heart rate task paused - not connected.[0m
+[0;32mI (34467) HydraWise-BLE-Server: ⏸ Heart rate task paused - not connected.[0m
+[0;32mI (35477) HydraWise-BLE-Server: ⏸ Hydration task paused - either not connected or button not pressed.[0m
+[0;32mI (37467) HydraWise-BLE-Server: ⏸ Heart rate task paused - not connected.[0m
+[0;32mI (40467) HydraWise-BLE-Server: ⏸ Heart rate task paused - not connected.[0m
+[0;32mI (40477) HydraWise-BLE-Server: ⏸ Hydration task paused - either not connected or button not pressed.[0m
+[0;32mI (43467) HydraWise-BLE-Server: ⏸ Heart rate task paused - not connected.[0m
+[0;32mI (45477) HydraWise-BLE-Server: ⏸ Hydration task paused - either not connected or button not pressed.[0m
+[0;32mI (46467) HydraWise-BLE-Server: ⏸ Heart rate task paused - not connected.[0m
+[0;32mI (49467) HydraWise-BLE-Server: ⏸ Heart rate task paused - not connected.[0m
+[0;32mI (50477) HydraWise-BLE-Server: ⏸ Hydration task paused - either not connected or button not pressed.[0m
+[0;32mI (52467) HydraWise-BLE-Server: ⏸ Heart rate task paused - not connected.[0m
+[0;32mI (55467) HydraWise-BLE-Server: ⏸ Heart rate task paused - not connected.[0m
+[0;32mI (55477) HydraWise-BLE-Server: ⏸ Hydration task paused - either not connected or button not pressed.[0m
+[0;32mI (58467) HydraWise-BLE-Server: ⏸ Heart rate task paused - not connected.[0m
+[0;32mI (60477) HydraWise-BLE-Server: ⏸ Hydration task paused - either not connected or button not pressed.[0m
+[0;32mI (61467) HydraWise-BLE-Server: ⏸ Heart rate task paused - not connected.[0m
+[0;32mI (64467) HydraWise-BLE-Server: ⏸ Heart rate task paused - not connected.[0m
+[0;32mI (65477) HydraWise-BLE-Server: ⏸ Hydration task paused - either not connected or button not pressed.[0m
+[0;32mI (67467) HydraWise-BLE-Server: ⏸ Heart rate task paused - not connected.[0m
+[0;32mI (70467) HydraWise-BLE-Server: ⏸ Heart rate task paused - not connected.[0m
+[0;32mI (70477) HydraWise-BLE-Server: ⏸ Hydration task paused - either not connected or button not pressed.[0m
+[0;32mI (73467) HydraWise-BLE-Server: ⏸ Heart rate task paused - not connected.[0m
+[0;32mI (75477) HydraWise-BLE-Server: ⏸ Hydration task paused - either not connected or button not pressed.[0m
+[0;32mI (76467) HydraWise-BLE-Server: ⏸ Heart rate
