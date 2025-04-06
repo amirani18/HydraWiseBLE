@@ -22,6 +22,7 @@ uint8_t ble_addr_type;
 volatile uint16_t conn_handle_global = 0; // Global connection handle to track the current connection
 uint16_t hrm_handle = 0; // Handle for Heart Rate Measurement characteristic
 uint16_t conductivity_handle = 0; // Handle for Conductivity characteristic
+uint16_t battery_handle = 0;
 uint8_t button_state = 0; // 0 = STOPPED, 1 = STARTED
 uint16_t button_char_handle = 0; // Handle for button characteristic
 void ble_app_advertise(void);
@@ -132,6 +133,10 @@ int device_read(uint16_t conn_handle, uint16_t attr_handle, struct ble_gatt_acce
         // tell me what the button state is
         ESP_LOGI(TAG, "Button state: %d", button_state);
     }
+    else if (attr_handle == battery_handle) {
+        uint8_t battery_level = 88;
+        os_mbuf_append(ctxt->om, &battery_level, sizeof(battery_level));
+    }    
     else {
         ESP_LOGW(TAG, "⚠️ Unknown characteristic read (handle: %d)", attr_handle);
         os_mbuf_append(ctxt->om, "Unknown", 7);
@@ -228,6 +233,27 @@ void notify_conductivity_task(void *param) {
     }
 }
 
+void notify_battery_task(void *param) {
+    while (1) {
+        struct ble_gap_conn_desc desc;
+        if (ble_gap_conn_find(conn_handle_global, &desc) == 0) {
+            uint8_t battery_level = 88;  // % battery
+            struct os_mbuf *batt_om = ble_hs_mbuf_from_flat(&battery_level, sizeof(battery_level));
+            int rc = ble_gattc_notify_custom(conn_handle_global, battery_handle, batt_om);
+            if (rc != 0) {
+                ESP_LOGE(TAG, "❌ Failed to send battery notification: %d", rc);
+            } else {
+                ESP_LOGI(TAG, "🔋 Battery level notification sent: %d%%", battery_level);
+            }
+        } else {
+            ESP_LOGI(TAG, "⏸ Battery task paused - not connected.");
+        }
+
+        vTaskDelay(pdMS_TO_TICKS(10000)); // Every 10 seconds
+    }
+}
+
+
 // Array of pointers to other service definitions
 // UUID - Universal Unique Identifier
 const struct ble_gatt_svc_def gatt_svcs[] = {
@@ -318,6 +344,7 @@ int ble_gap_event(struct ble_gap_event *event, void *arg) {
                     tasks_started = true;
                     xTaskCreate(notify_heart_rate_task, "hr_notify_task", 2048, NULL, 5, NULL);
                     xTaskCreate(notify_conductivity_task, "hydration_notify_task", 2048, NULL, 5, NULL);
+                    xTaskCreate(notify_battery_task, "battery_notify_task", 2048, NULL, 5, NULL);
                     ESP_LOGI("GAP", "✅ Notification tasks started");
                 }
             } else {
@@ -361,7 +388,7 @@ void ble_app_advertise(void)
     // const uint16_t svc_uuid = 0x180D;
     static const ble_uuid16_t svc_uuids[] = {
         BLE_UUID16_INIT(0x180D), // Heart Rate Service
-        // BLE_UUID16_INIT(0x180F), // Battery Service
+        BLE_UUID16_INIT(0x180F), // Battery Service
         BLE_UUID16_INIT(0x181C), // Conductivity Service
         // BLE_UUID16_INIT(0x180A), // Device Information Service
         // BLE_UUID16_INIT(0x180C), // Custom Command Control Service
@@ -445,6 +472,24 @@ void ble_app_on_sync(void) {
         button_char_handle = val_handle;
         ESP_LOGI(TAG, "Button characteristic handle: %d", button_char_handle);
     }
+
+    // battery handle
+    ESP_LOGI(TAG, "Locating Battery Characteristic UUID: 0x2A19 in Service UUID: 0x180F");
+
+    rc = ble_gatts_find_chr(
+        BLE_UUID16_DECLARE(0x180F),
+        BLE_UUID16_DECLARE(0x2A19),
+        &def_handle,
+        &val_handle
+    );
+
+    if (rc != 0) {
+        ESP_LOGE(TAG, "Failed to find Battery characteristic: %d", rc);
+    } else {
+        battery_handle = val_handle;
+        ESP_LOGI(TAG, "Battery characteristic handle: %d", battery_handle);
+    }
+
 }
 
 // the inifinite task
